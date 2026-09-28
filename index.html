@@ -3,126 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ABC Online Book Store - Your online destination for books">
-<title>ABC Online Book Store | 3D</title>
+<title>Food Corner | 3D Restaurant</title>
 <style>
+:root{--or:#e85d04;--or2:#ea580c;--red:#ef4444;--brown:#2b1608;--dk:#c2410c}
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#6c63ff;--primary-dark:#5148d8;--secondary:#ff6584;--bg:#f6f7fb;--card:#fff;--text:#202124;--muted:#6b7280;--border:#e5e7eb;--shadow:0 12px 35px rgba(0,0,0,.08)}
-body.dark{--bg:#0f1424;--card:#1c2436;--text:#f9fafb;--muted:#cbd5e1;--border:#334155;--shadow:0 12px 35px rgba(0,0,0,.35)}
 html{scroll-behavior:smooth}
-body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s;overflow-x:hidden}
-:focus-visible{outline:3px solid var(--secondary);outline-offset:3px}
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#fff8f0,#ffeedd 55%,#fff8f0);color:var(--brown);overflow-x:hidden;transition:background .4s,color .4s}
+:focus-visible{outline:3px solid var(--or);outline-offset:3px}
 #stage{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
-#progress{position:fixed;top:0;left:0;height:4px;width:0;z-index:3000;background:linear-gradient(90deg,#fde68a,var(--secondary))}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;z-index:5000;background:linear-gradient(90deg,var(--or),var(--red))}
 
-/* HEADER */
-header{background:linear-gradient(135deg,#6c63ff,#8b5cf6);color:#fff;padding:16px 7%;position:sticky;top:0;z-index:1000;box-shadow:0 5px 20px rgba(0,0,0,.15);transition:padding .3s}
-header.small{padding:9px 7%}
-.header-inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.logo{font-size:1.6rem;font-weight:800;white-space:nowrap}
-.logo span{display:inline-block;animation:flip 5s ease-in-out infinite}
-@keyframes flip{50%{transform:rotateY(180deg)}}
-nav{display:flex;gap:8px;align-items:center}
-nav a{color:#fff;text-decoration:none;padding:8px 13px;border-radius:20px;transition:.3s}
-nav a:hover,nav a.on{background:rgba(255,255,255,.22)}
-.header-actions{display:flex;gap:8px}
-.icon-btn{border:0;background:rgba(255,255,255,.18);color:#fff;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:18px;transition:.3s}
-.icon-btn:hover{background:rgba(255,255,255,.3);transform:scale(1.08) rotate(8deg)}
-#menuBtn{display:none}
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:16px 7%;background:rgba(255,255,255,.82);backdrop-filter:blur(15px);border-bottom:1px solid rgba(0,0,0,.08);transition:padding .3s}
+nav.small{padding:10px 7%}
+.logo{font-size:25px;font-weight:bold;color:var(--or)}
+.nav-links{display:flex;list-style:none;gap:28px}
+.nav-links a{text-decoration:none;color:var(--brown);font-weight:bold;padding-bottom:4px;border-bottom:2px solid transparent;transition:.3s}
+.nav-links a:hover,.nav-links a.on{color:var(--or);border-color:var(--or)}
+.nav-buttons{display:flex;align-items:center;gap:10px}
+.theme-btn,.cart-btn{border:0;background:#fff;padding:9px 13px;border-radius:20px;cursor:pointer;font-size:16px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.cart-btn.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.3) rotate(-8deg)}}
+.menu-btn{display:none;font-size:28px;cursor:pointer;background:none;border:0}
 
 /* HERO */
-.hero{min-height:calc(100vh - 74px);display:flex;align-items:center;justify-content:flex-start;padding:60px 8%}
-.hero-content{max-width:620px;padding:42px;border-radius:30px;background:rgba(255,255,255,.62);backdrop-filter:blur(8px);animation:fadeUp .9s ease;will-change:transform}
-body.dark .hero-content{background:rgba(28,36,54,.68)}
-.hero h1{font-size:clamp(2.5rem,6vw,4.6rem);line-height:1.05;margin-bottom:20px;background:linear-gradient(90deg,#6c63ff,#ff6584);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{color:var(--muted);font-size:1.15rem;margin-bottom:30px}
+.hero{min-height:100vh;padding:130px 8% 60px;display:flex;align-items:center;justify-content:flex-start}
+.hero-content{max-width:620px;padding:40px;border-radius:30px;background:rgba(255,255,255,.6);backdrop-filter:blur(8px);animation:heroIn 1s ease;will-change:transform}
+.hero-content h1{font-size:clamp(45px,7vw,80px);line-height:1;margin-bottom:20px}
+.orange-text{display:inline-block;background:linear-gradient(90deg,#e85d04,#f97316,#ef4444);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-content p{color:#6b4b3e;font-size:19px;line-height:1.7;margin-bottom:20px}
 .hero-buttons{display:flex;gap:15px;flex-wrap:wrap}
-.btn{border:0;border-radius:30px;padding:13px 25px;font-size:1rem;font-weight:bold;cursor:pointer;transition:.3s}
-.btn-primary{background:var(--primary);color:#fff}
-.btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
-.btn:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(108,99,255,.25)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}}
+.btn{border:0;border-radius:30px;padding:14px 25px;cursor:pointer;font-weight:bold;font-size:15px;text-decoration:none;display:inline-block;transition:.3s}
+.primary{background:linear-gradient(90deg,#e85d04,#ef4444);color:#fff}
+.secondary{background:#fff;color:var(--or);border:2px solid var(--or)}
+.btn:hover{transform:translateY(-5px) scale(1.03);box-shadow:0 15px 30px rgba(232,93,4,.28)}
+@keyframes heroIn{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}
 
-/* SECTIONS */
-section{max-width:1200px;margin:auto;padding:70px 20px}
-.section-title{text-align:center;margin-bottom:40px}
-.section-title h2{font-size:2.2rem;margin-bottom:8px;text-shadow:0 2px 18px var(--bg)}
-.section-title p{color:var(--muted)}
-.reveal{opacity:0;transform:translateY(50px) rotateX(-10deg);transform-origin:50% 100%;transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
-.reveal.visible{opacity:1;transform:none}
-.search-box{max-width:650px;margin:0 auto 35px}
-.search-box input{width:100%;padding:17px 22px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:var(--text);outline:none;font-size:1rem;box-shadow:var(--shadow)}
-.search-box input:focus{border-color:var(--primary)}
+/* SECTIONS + REVEAL */
+section{padding:90px 8%}
+.section-title{text-align:center;font-size:42px;color:var(--dk);margin-bottom:12px;text-shadow:0 2px 18px rgba(255,255,255,.9)}
+.section-text{text-align:center;max-width:750px;margin:0 auto 45px;color:#6b4d40;line-height:1.5}
+.reveal{opacity:0;transform:translateY(50px) rotateX(-12deg);transform-origin:50% 100%;transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
 
-/* 3D TILT (categories + books) */
-.categories,.book-grid{display:grid;gap:22px;perspective:1400px}
-.categories{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
-.book-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
-.tilt{position:relative;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transform-style:preserve-3d;transition:transform .15s ease-out,border-color .3s,box-shadow .3s}
-.tilt:hover{border-color:var(--primary);box-shadow:0 28px 55px rgba(108,99,255,.28)}
-.tilt::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.4),transparent 55%)}
+/* ABOUT / STATS */
+.about-card{max-width:900px;margin:auto;padding:40px;background:rgba(255,255,255,.88);border-radius:25px;box-shadow:0 15px 40px rgba(0,0,0,.1);border:1px solid #fed7aa}
+.about-card p{text-align:center;font-size:18px;line-height:1.8;color:#63483d}
+.stats{margin-top:50px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.stat{background:#fff;padding:30px;text-align:center;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,.08)}
+.stat h2{color:var(--or2);font-size:40px}
+.stat p{color:#76584c}
+
+/* FILTERS */
+.filters{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+.filter-btn{border:1px solid #fed7aa;background:#fff;color:var(--dk);padding:10px 20px;border-radius:25px;cursor:pointer;transition:.3s;font-size:15px}
+.filter-btn:hover,.filter-btn.active{background:var(--or2);color:#fff;transform:translateY(-3px)}
+
+/* 3D TILT CARDS */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:25px;perspective:1400px}
+.tilt{position:relative;background:#fff;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,.08);transform-style:preserve-3d;overflow:hidden;transition:box-shadow .3s}
+.tilt.ready{transition:transform .15s ease-out,box-shadow .3s}
+.tilt:hover{box-shadow:0 28px 55px rgba(234,88,12,.28)}
+.tilt::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.65),transparent 55%)}
 .tilt:hover::after{opacity:1}
-.category{padding:28px 15px;text-align:center;border-radius:18px;cursor:pointer}
-.category.selected{border-color:var(--primary);background:linear-gradient(135deg,var(--card),rgba(108,99,255,.15));box-shadow:0 0 0 2px var(--primary)}
-.category-icon{font-size:2.4rem;margin-bottom:10px;transform:translateZ(55px);display:inline-block;animation:bob 4s ease-in-out infinite;filter:drop-shadow(0 12px 8px rgba(0,0,0,.25))}
-.category:nth-child(even) .category-icon{animation-delay:-2s}
-@keyframes bob{50%{transform:translateZ(55px) translateY(-8px) rotate(6deg)}}
-.category h3{font-size:1rem;transform:translateZ(30px)}
-.book-card{border-radius:20px}
-.book-card.hide{display:none}
-.book-card.pop{animation:pop .45s cubic-bezier(.2,.8,.2,1)}
+.food-card{padding:25px;text-align:center}
+.food-card.hide{display:none}
+.food-card.pop{animation:pop .45s cubic-bezier(.2,.8,.2,1)}
 @keyframes pop{from{opacity:0;transform:scale(.7) rotateY(60deg)}}
-.book-cover{height:210px;display:flex;align-items:center;justify-content:center;font-size:5rem;background:linear-gradient(135deg,#6c63ff,#8b5cf6)}
-.book-card.c2 .book-cover{background:linear-gradient(135deg,#ff6584,#fb7185)}
-.book-card.c3 .book-cover{background:linear-gradient(135deg,#06b6d4,#2563eb)}
-.book-cover span{transform:translateZ(70px);filter:drop-shadow(0 18px 10px rgba(0,0,0,.35));transition:.4s}
-.book-card:hover .book-cover span{transform:translateZ(100px) scale(1.12) rotate(-6deg)}
-.book-info{padding:22px}
-.book-info h3{margin-bottom:5px;transform:translateZ(30px)}
-.author{color:var(--muted);margin-bottom:12px;transform:translateZ(15px)}
-.price{font-size:1.2rem;font-weight:bold;color:var(--primary);margin-bottom:15px;transform:translateZ(25px)}
-.book-actions{display:flex;gap:10px;transform:translateZ(20px)}
-.book-actions .btn{flex:1;padding:10px}
-.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px}
+.food-image{height:150px;display:flex;align-items:center;justify-content:center;font-size:100px;transform:translateZ(50px);transition:.4s;filter:drop-shadow(0 18px 12px rgba(0,0,0,.25))}
+.food-card:hover .food-image{transform:translateZ(80px) scale(1.1) rotate(6deg)}
+.food-card h3{color:var(--dk);font-size:23px;margin:10px 0;transform:translateZ(30px)}
+.food-card p{transform:translateZ(15px)}
+.category{color:#9a3412;font-size:13px;background:#ffedd5;display:inline-block;padding:5px 12px;border-radius:20px;transform:translateZ(25px)}
+.price{font-size:22px;font-weight:bold;color:#111827;margin:15px 0;transform:translateZ(30px)}
+.add-btn{width:100%;border:0;padding:12px;border-radius:10px;background:var(--or2);color:#fff;font-weight:bold;cursor:pointer;transition:.3s;transform:translateZ(20px)}
+.add-btn:hover{background:var(--dk)}
 
-/* OFFER */
-.offer{background:linear-gradient(135deg,#6c63ff,#ff6584);color:#fff;border-radius:25px;padding:45px 30px;text-align:center;position:relative;overflow:hidden;box-shadow:0 25px 60px rgba(108,99,255,.35)}
-.offer::before{content:"";position:absolute;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,.1);top:-100px;right:-80px}
-.offer h2{font-size:2.3rem;margin-bottom:10px}
-.offer p{margin-bottom:20px}
-.offer-code{display:inline-block;background:#fff;color:#6c63ff;padding:10px 20px;border-radius:10px;font-weight:bold;cursor:pointer;transition:.3s}
-.offer-code:hover{transform:translateY(-3px) rotateX(12deg)}
+/* HOURS / CONTACT */
+.hours{max-width:700px;margin:auto;padding:40px;background:linear-gradient(135deg,#fff7ed,#ffedd5);border-radius:25px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,.08)}
+.hours-icon{font-size:60px;margin-bottom:15px;display:inline-block;animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotateY(360deg)}}
+.hours h3{color:var(--dk);font-size:28px;margin-bottom:10px}
+.contact-form{max-width:650px;margin:auto;padding:40px;background:#fff;border-radius:25px;box-shadow:0 15px 40px rgba(0,0,0,.1)}
+input,textarea,select{width:100%;padding:14px;margin-bottom:16px;border:1px solid #fed7aa;border-radius:10px;font-size:16px;font-family:inherit}
+textarea{height:120px;resize:none}
+.contact-form button{width:100%}
 
-/* CART / TOAST */
-.cart{position:fixed;right:20px;bottom:20px;background:var(--card);border:1px solid var(--border);box-shadow:0 15px 40px rgba(0,0,0,.2);padding:16px 20px;border-radius:50px;z-index:900;cursor:pointer;transition:.3s;border-width:1px;font:inherit;color:var(--text)}
-.cart:hover{transform:scale(1.05)}
-.cart.bump{animation:bump .5s}
-@keyframes bump{40%{transform:scale(1.25) rotate(-6deg)}}
-.cart-count{display:inline-flex;align-items:center;justify-content:center;background:var(--secondary);color:#fff;width:25px;height:25px;border-radius:50%;margin-left:7px;font-size:.8rem}
-.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,100px);background:#111827;color:#fff;padding:13px 22px;border-radius:30px;opacity:0;transition:.4s;z-index:2000;max-width:90%;text-align:center}
-.toast.show{transform:translate(-50%,0);opacity:1}
+/* CART */
+.cart{position:fixed;top:0;right:-420px;width:380px;max-width:90%;height:100vh;background:#fff;z-index:3000;padding:30px;box-shadow:-10px 0 30px rgba(0,0,0,.2);transition:.4s;overflow-y:auto}
+.cart.open{right:0}
+.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.cart-header h2{color:var(--dk)}
+.close-cart{border:0;background:#fee2e2;color:#dc2626;width:35px;height:35px;border-radius:50%;cursor:pointer;font-size:20px}
+.cart-item{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid #eee;animation:pop .4s}
+.cart-item-name{font-weight:bold}
+.cart-item-price{color:var(--or2)}
+.cart-total{margin-top:25px;font-size:22px;font-weight:bold;display:flex;justify-content:space-between}
 
-footer{text-align:center;padding:35px 20px;background:#111827;color:#d1d5db;line-height:1.9}
-footer strong{color:#fff}
-.creator-name{margin-top:10px}
-.creator-name strong{color:#a5b4fc;letter-spacing:1px}
+/* MODAL / TOAST */
+.modal{display:none;position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:20px;perspective:1000px}
+.modal-content{background:#fff;width:100%;max-width:500px;padding:35px;border-radius:25px;position:relative;animation:modalIn .45s ease}
+.modal-content h2{color:var(--dk);margin-bottom:20px}
+.close-modal{position:absolute;right:20px;top:12px;font-size:30px;cursor:pointer;color:#777;background:none;border:0}
+@keyframes modalIn{from{opacity:0;transform:scale(.7) rotateX(25deg)}to{opacity:1;transform:none}}
+#toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,100px);background:var(--brown);color:#fff;padding:12px 22px;border-radius:30px;z-index:6000;transition:.4s;opacity:0}
+#toast.show{transform:translate(-50%,0);opacity:1}
+
+footer{background:var(--brown);color:#fff;text-align:center;padding:34px;line-height:1.8}
+.creator-name{margin-top:12px}
+.creator-name strong{color:#fdba74;letter-spacing:1px}
+#topBtn{display:none;position:fixed;right:25px;bottom:25px;width:50px;height:50px;border:0;border-radius:50%;background:var(--or2);color:#fff;font-size:22px;cursor:pointer;z-index:2000}
+
+/* DARK */
+body.dark{background:linear-gradient(180deg,#160b05,#1f1008 60%,#160b05);color:#fff}
+body.dark nav{background:rgba(22,11,5,.9)}
+body.dark .nav-links a{color:#fff}
+body.dark .hero-content{background:rgba(36,19,11,.7)}
+body.dark .tilt,body.dark .stat,body.dark .about-card,body.dark .contact-form,body.dark .cart,body.dark .modal-content,body.dark .hours{background:#24130b;color:#fff}
+body.dark .hero-content h1,body.dark .price{color:#fff}
+body.dark .hero-content p,body.dark .section-text,body.dark .about-card p,body.dark .stat p{color:#d6c3b8}
+body.dark .section-title{text-shadow:none;color:#fb923c}
+body.dark .category{background:#3b2314;color:#fdba74}
+body.dark input,body.dark textarea,body.dark select{background:#160b05;color:#fff;border-color:#4a2c19}
 
 @media(max-width:850px){
- #menuBtn{display:block}
- nav{display:none;position:absolute;top:100%;left:0;width:100%;flex-direction:column;background:#5148d8;padding:18px}
- nav.open{display:flex}
+ .menu-btn{display:block}
+ .nav-links{display:none;position:absolute;top:100%;left:0;width:100%;flex-direction:column;text-align:center;padding:25px;background:#fff}
+ body.dark .nav-links{background:#160b05}
+ .nav-links.active{display:flex}
  .hero{justify-content:center;align-items:flex-end;text-align:center;padding-top:300px}
  .hero-buttons{justify-content:center}
-}
-@media(max-width:600px){
- section{padding:50px 15px}
- .hero h1{font-size:2.6rem}
- .book-grid{grid-template-columns:1fr}
- .categories{grid-template-columns:repeat(2,1fr)}
+ section{padding:70px 5%}
+ .section-title{font-size:32px}
 }
 @media(prefers-reduced-motion:reduce){
  .reveal{opacity:1;transform:none;transition:none}
- .hero-content,.logo span,.category-icon,.cart.bump{animation:none}
+ .hero-content,.hours-icon,.cart-btn.bump{animation:none}
  html{scroll-behavior:auto}
 }
 </style>
@@ -131,84 +147,121 @@ footer strong{color:#fff}
 
 <canvas id="stage" aria-hidden="true"></canvas>
 <div id="progress"></div>
+<div id="toast" role="status"></div>
 
-<header id="top">
-  <div class="header-inner">
-    <div class="logo"><span>📚</span> ABC Books</div>
-    <nav id="nav">
-      <a href="#home">Home</a><a href="#categories">Categories</a><a href="#books">Books</a><a href="#offers">Offers</a><a href="#contact">Contact</a>
-    </nav>
-    <div class="header-actions">
-      <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
-      <button class="icon-btn" id="menuBtn" aria-label="Open menu">☰</button>
-    </div>
+<nav id="nav">
+  <div class="logo">🍴 Food Corner</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#hours">Hours</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-buttons">
+    <button class="theme-btn" id="themeBtn" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙</button>
+    <button class="cart-btn" id="cartBtn" onclick="openCart()" aria-label="Open cart">🛒 <span id="cartCount">0</span></button>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰</button>
   </div>
-</header>
+</nav>
 
-<main>
 <section class="hero" id="home">
   <div class="hero-content" id="heroBox">
-    <h1>ABC Online Book Store</h1>
-    <p>Your Online Destination for Books. Discover knowledge, imagination and inspiration — all in one place.</p>
+    <h1>Taste the <span class="orange-text">Happiness</span></h1>
+    <p>Delicious Food • Great Taste • Happy Moments</p>
+    <p>Welcome to Food Corner Restaurant. We serve fresh, delicious and hygienic food prepared with love for our customers.</p>
     <div class="hero-buttons">
-      <button class="btn btn-primary" onclick="scrollToBooks()">Explore Books 📖</button>
-      <button class="btn btn-secondary" onclick="showToast('Welcome to ABC Online Book Store!')">Learn More</button>
+      <a href="#menu" class="btn primary">🍽️ Explore Menu</a>
+      <button class="btn secondary" onclick="openReservation()">📅 Reserve Table</button>
     </div>
   </div>
 </section>
 
-<section id="categories" class="reveal">
-  <div class="section-title"><h2>Book Categories</h2><p>Choose a category to discover your next favorite book. Click again to clear.</p></div>
-  <div class="categories">
-    <div class="tilt category" onclick="filterBooks('Programming',this)"><div class="category-icon">💻</div><h3>Programming</h3></div>
-    <div class="tilt category" onclick="filterBooks('Computer Science',this)"><div class="category-icon">🖥️</div><h3>Computer Science</h3></div>
-    <div class="tilt category" onclick="filterBooks('Business',this)"><div class="category-icon">💼</div><h3>Business</h3></div>
-    <div class="tilt category" onclick="filterBooks('Fiction',this)"><div class="category-icon">📚</div><h3>Fiction</h3></div>
-    <div class="tilt category" onclick="filterBooks('Competitive Exams',this)"><div class="category-icon">🎓</div><h3>Competitive Exams</h3></div>
+<section id="about">
+  <h2 class="section-title reveal">Welcome to Food Corner</h2>
+  <p class="section-text reveal">Fresh ingredients, delicious recipes and happy customers.</p>
+  <div class="about-card reveal">
+    <p>Welcome to Food Corner Restaurant. We serve fresh, delicious and hygienic food for our customers. Our goal is to create memorable dining experiences with quality ingredients, great taste and friendly service.</p>
+  </div>
+  <div class="stats">
+    <div class="stat reveal"><h2 class="counter" data-target="5000">0</h2><p>Happy Customers</p></div>
+    <div class="stat reveal"><h2 class="counter" data-target="25">0</h2><p>Menu Items</p></div>
+    <div class="stat reveal"><h2 class="counter" data-target="10">0</h2><p>Years Experience</p></div>
+    <div class="stat reveal"><h2 class="counter" data-target="4">0</h2><p>Star Experience</p></div>
   </div>
 </section>
 
-<section id="books" class="reveal">
-  <div class="section-title"><h2>Popular Books</h2><p>Explore some of our popular titles.</p></div>
-  <div class="search-box"><input type="text" id="searchInput" placeholder="🔎 Search books or authors... (press / to focus)" oninput="applyFilters()"></div>
-  <div class="book-grid" id="bookGrid">
-    <article class="tilt book-card" data-category="Programming">
-      <div class="book-cover"><span>🐍</span></div>
-      <div class="book-info"><h3>Python Programming</h3><p class="author">John Smith</p><p class="price">₹450</p>
-        <div class="book-actions"><button class="btn btn-primary" onclick="addToCart('Python Programming')">Add to Cart</button><button class="btn btn-secondary" onclick="showDetails('Python Programming','John Smith','₹450')">Details</button></div></div>
-    </article>
-    <article class="tilt book-card c2" data-category="Computer Science">
-      <div class="book-cover"><span>🌐</span></div>
-      <div class="book-info"><h3>Web Technology</h3><p class="author">David Brown</p><p class="price">₹500</p>
-        <div class="book-actions"><button class="btn btn-primary" onclick="addToCart('Web Technology')">Add to Cart</button><button class="btn btn-secondary" onclick="showDetails('Web Technology','David Brown','₹500')">Details</button></div></div>
-    </article>
-    <article class="tilt book-card c3" data-category="Computer Science">
-      <div class="book-cover"><span>🗄️</span></div>
-      <div class="book-info"><h3>Database Management</h3><p class="author">Robert Lee</p><p class="price">₹550</p>
-        <div class="book-actions"><button class="btn btn-primary" onclick="addToCart('Database Management')">Add to Cart</button><button class="btn btn-secondary" onclick="showDetails('Database Management','Robert Lee','₹550')">Details</button></div></div>
-    </article>
-    <p class="empty" id="empty" hidden>No books match your search or category.</p>
+<section id="menu">
+  <h2 class="section-title reveal">Our Special Menu</h2>
+  <p class="section-text reveal">Explore our delicious selection of food and beverages.</p>
+  <div class="filters reveal">
+    <button class="filter-btn active" onclick="filterMenu('all',this)">All</button>
+    <button class="filter-btn" onclick="filterMenu('italian',this)">Italian</button>
+    <button class="filter-btn" onclick="filterMenu('indian',this)">Indian</button>
+    <button class="filter-btn" onclick="filterMenu('fastfood',this)">Fast Food</button>
+    <button class="filter-btn" onclick="filterMenu('beverage',this)">Beverages</button>
+  </div>
+  <div class="menu-grid">
+    <div class="tilt food-card reveal" data-category="italian"><div class="food-image">🍕</div><span class="category">Italian</span><h3>Pizza</h3><p>Fresh cheesy Italian pizza.</p><div class="price">₹250</div><button class="add-btn" onclick="addToCart('Pizza',250)">Add to Cart</button></div>
+    <div class="tilt food-card reveal" data-category="indian"><div class="food-image">🥘</div><span class="category">Indian</span><h3>Paneer Tikka</h3><p>Delicious spicy grilled paneer.</p><div class="price">₹180</div><button class="add-btn" onclick="addToCart('Paneer Tikka',180)">Add to Cart</button></div>
+    <div class="tilt food-card reveal" data-category="fastfood"><div class="food-image">🍔</div><span class="category">Fast Food</span><h3>Veg Burger</h3><p>Crispy vegetable burger.</p><div class="price">₹120</div><button class="add-btn" onclick="addToCart('Veg Burger',120)">Add to Cart</button></div>
+    <div class="tilt food-card reveal" data-category="beverage"><div class="food-image">☕</div><span class="category">Beverage</span><h3>Cold Coffee</h3><p>Smooth and refreshing cold coffee.</p><div class="price">₹100</div><button class="add-btn" onclick="addToCart('Cold Coffee',100)">Add to Cart</button></div>
+    <div class="tilt food-card reveal" data-category="indian"><div class="food-image">🍛</div><span class="category">Indian</span><h3>Special Thali</h3><p>Complete Indian meal with variety.</p><div class="price">₹220</div><button class="add-btn" onclick="addToCart('Special Thali',220)">Add to Cart</button></div>
+    <div class="tilt food-card reveal" data-category="beverage"><div class="food-image">🍨</div><span class="category">Dessert</span><h3>Ice Cream</h3><p>Creamy and delicious dessert.</p><div class="price">₹90</div><button class="add-btn" onclick="addToCart('Ice Cream',90)">Add to Cart</button></div>
   </div>
 </section>
 
-<section id="offers" class="reveal">
-  <div class="offer">
-    <h2>🎉 Special Offer</h2>
-    <p>Get <strong>20% discount</strong> on selected books.</p>
-    <span class="offer-code" onclick="copyOffer()">Use Code: READ20</span>
+<section id="hours">
+  <h2 class="section-title reveal">Opening Hours</h2>
+  <div class="hours reveal">
+    <div class="hours-icon">🕐</div>
+    <h3>We're Open!</h3>
+    <p>Monday - Sunday</p>
+    <h2 style="margin-top:10px">11:00 AM - 10:00 PM</h2>
+    <p style="margin-top:15px;color:#76584c">Come and enjoy delicious food with your family and friends.</p>
   </div>
 </section>
-</main>
 
-<button class="cart" id="cartBtn" onclick="showCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
-<div class="toast" id="toast" role="status"></div>
+<section id="contact">
+  <h2 class="section-title reveal">Contact Us</h2>
+  <p class="section-text reveal">Have a question or want to make a reservation? Send us a message.</p>
+  <form class="contact-form reveal" onsubmit="sendMessage(event)">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <textarea id="message" placeholder="Your Message" required></textarea>
+    <button type="submit" class="btn primary">Send Message</button>
+  </form>
+</section>
 
-<footer id="contact">
-  <p>© 2026 <strong>ABC Online Book Store</strong></p>
-  <p>Your Online Destination for Books 📚</p>
+<div class="cart" id="cart">
+  <div class="cart-header"><h2>🛒 Your Cart</h2><button class="close-cart" onclick="closeCart()" aria-label="Close cart">×</button></div>
+  <div id="cartItems"><p style="color:#777">Your cart is empty.</p></div>
+  <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+  <button class="btn primary" style="width:100%;margin-top:20px" onclick="checkout()">Checkout</button>
+</div>
+
+<div class="modal" id="reservationModal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeReservation()" aria-label="Close">×</button>
+    <h2>📅 Reserve Your Table</h2>
+    <form onsubmit="reserveTable(event)">
+      <input type="text" placeholder="Your Name" required>
+      <input type="tel" placeholder="Phone Number" required>
+      <input type="date" required>
+      <select required><option value="">Number of Guests</option><option>1 Guest</option><option>2 Guests</option><option>3 Guests</option><option>4 Guests</option><option>5+ Guests</option></select>
+      <button class="btn primary" style="width:100%">Confirm Reservation</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Food Corner Restaurant</p>
+  <p>Delicious Food | Great Taste | Happy Moments</p>
   <p>Designed with HTML, CSS, JavaScript &amp; Three.js</p>
   <div class="creator-name"><span>Created by</span> <strong>UTTAM KUMAR</strong></div>
 </footer>
+
+<button id="topBtn" onclick="goTop()" aria-label="Back to top">↑</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -216,166 +269,185 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = id => document.getElementById(id);
 let setSceneTheme = ()=>{};
 
-/* ===== TEXTURES: book covers + topic icons ===== */
-const canv=(w,h)=>{const c=document.createElement("canvas");c.width=w;c.height=h;return c;};
-function rr(x,X,Y,W,H,R){ x.beginPath(); if(x.roundRect) x.roundRect(X,Y,W,H,R); else x.rect(X,Y,W,H); }
-function coverTex(emoji,c1,c2){
-  const c=canv(256,340),x=c.getContext("2d"),g=x.createLinearGradient(0,0,256,340);
-  g.addColorStop(0,c1);g.addColorStop(1,c2);x.fillStyle=g;x.fillRect(0,0,256,340);
-  x.fillStyle="rgba(255,255,255,.25)";x.fillRect(0,0,22,340);
-  x.strokeStyle="rgba(255,255,255,.7)";x.lineWidth=5;x.strokeRect(38,18,200,304);
-  x.font="110px Arial";x.textAlign="center";x.textBaseline="middle";x.fillText(emoji,140,140);
-  x.fillStyle="rgba(255,255,255,.9)";x.fillRect(70,236,140,10);x.fillRect(90,262,100,8);
-  return new THREE.CanvasTexture(c);
-}
-function iconTex(emoji,c1,c2){
-  const c=canv(256,256),x=c.getContext("2d"),g=x.createLinearGradient(0,0,256,256);
-  g.addColorStop(0,c1);g.addColorStop(1,c2);x.fillStyle=g;rr(x,8,8,240,240,56);x.fill();
-  x.strokeStyle="rgba(255,255,255,.75)";x.lineWidth=6;x.stroke();
-  x.font="120px Arial";x.textAlign="center";x.textBaseline="middle";x.fillText(emoji,128,140);
-  return new THREE.CanvasTexture(c);
-}
-const BOOKS=[["🐍","#6c63ff","#8b5cf6"],["🌐","#ff6584","#fb7185"],["🗄️","#06b6d4","#2563eb"],["💻","#8b5cf6","#ec4899"],["💼","#f59e0b","#ef4444"],["📚","#10b981","#0ea5e9"],["🎓","#6366f1","#a855f7"],["🖥️","#3b82f6","#14b8a6"]];
-const ICONS=[["💻","#6c63ff","#8b5cf6"],["🖥️","#06b6d4","#2563eb"],["💼","#f59e0b","#ef4444"],["📚","#ff6584","#fb7185"],["🎓","#10b981","#0ea5e9"],["🐍","#22c55e","#0ea5e9"]];
-function makeBook(i,w=1.6,h=2.2,d=.42){
-  const [e,c1,c2]=BOOKS[i%BOOKS.length];
-  const pages=new THREE.MeshStandardMaterial({color:0xfff4dc,roughness:.8}), cover=new THREE.MeshStandardMaterial({color:new THREE.Color(c1),roughness:.5});
-  const front=new THREE.MeshStandardMaterial({map:coverTex(e,c1,c2),roughness:.45});
-  return new THREE.Mesh(new THREE.BoxGeometry(w,h,d),[pages,cover,pages,pages,front,cover]);
-}
-function makeIcon(i,s){
-  const [e,c1,c2]=ICONS[i%ICONS.length];
-  const m=new THREE.Mesh(new THREE.BoxGeometry(s,s,s),new THREE.MeshBasicMaterial({map:iconTex(e,c1,c2),transparent:true,opacity:.95}));
-  m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.6})));
-  return m;
-}
-
-/* ===== FULL-PAGE 3D BACKGROUND: hero book stack + orbiting topic icons + floating books ===== */
+/* ===== FULL-PAGE 3D BACKGROUND: hero pizza + floating pizzas, donuts, ice creams, sparkles ===== */
 (function(){
-  if(typeof THREE==="undefined") return;
-  const renderer=new THREE.WebGLRenderer({canvas:$("stage"),alpha:true,antialias:true});
+  if (typeof THREE === "undefined") return;           // fallback: plain gradient if CDN blocked
+  const renderer = new THREE.WebGLRenderer({canvas:$("stage"), alpha:true, antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0xf6f7fb,14,40);
-  const camera=new THREE.PerspectiveCamera(50,1,.1,80); camera.position.z=12;
-  scene.add(new THREE.AmbientLight(0xffffff,.95));
-  const l1=new THREE.PointLight(0xffffff,1.3,80); l1.position.set(8,7,10); scene.add(l1);
-  const l2=new THREE.PointLight(0xff6584,.9,80); l2.position.set(-9,-5,6); scene.add(l2);
-  const DEPTH=44, rnd=(a,b)=>a+Math.random()*(b-a), items=[];
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0xffeedd, 12, 38);
+  const camera = new THREE.PerspectiveCamera(50,1,.1,80);
+  scene.add(new THREE.AmbientLight(0xffffff,.85));
+  const l1 = new THREE.PointLight(0xffd8a8,1.5,80); l1.position.set(8,7,10); scene.add(l1);
+  const l2 = new THREE.PointLight(0xef4444,.8,80); l2.position.set(-9,-5,6); scene.add(l2);
 
-  // hero centrepiece: stack of 3 books + orbiting topic icons
-  const hero=new THREE.Group(), stack=new THREE.Group();
-  for(let i=0;i<3;i++){ const b=makeBook(i,2.6,3.4,.6); b.rotation.x=-Math.PI/2; b.rotation.z=(i-1)*.35; b.position.y=i*.66-.6; stack.add(b); }
-  stack.rotation.x=.45; hero.add(stack);
-  const orbit=new THREE.Group(), orbs=[];
-  for(let i=0;i<5;i++){ const c=makeIcon(i,.75); orbit.add(c); orbs.push(c); }
-  hero.add(orbit); scene.add(hero);
+  const DEPTH = 46, rnd=(a,b)=>a+Math.random()*(b-a), M=(c,r=.5)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
+  const items = [];
 
-  // floating books + topic icons down the page
-  for(let i=0;i<20;i++){
-    const b=makeBook(i+3,rnd(.9,1.4),rnd(1.3,1.9),.3);
-    b.position.set((i%2?1:-1)*rnd(4.5,11),-i*(DEPTH/20)-rnd(1,3),rnd(-7,0)); b.rotation.set(rnd(0,6),rnd(0,6),0);
-    items.push({o:b,rx:rnd(.1,.35),ry:rnd(.2,.5),ph:rnd(0,6),base:b.position.y}); scene.add(b);
+  function pizza(){
+    const g = new THREE.Group();
+    const crust = new THREE.Mesh(new THREE.CylinderGeometry(2,2,.3,40), M(0xd97706)); g.add(crust);
+    const cheese = new THREE.Mesh(new THREE.CylinderGeometry(1.75,1.75,.34,40), M(0xfbbf24,.35)); g.add(cheese);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.9,.16,10,40), M(0xb45309)); ring.rotation.x=Math.PI/2; ring.position.y=.1; g.add(ring);
+    const pepGeo = new THREE.CylinderGeometry(.22,.22,.08,16);
+    for (let i=0;i<9;i++){
+      const p = new THREE.Mesh(pepGeo, M(0xdc2626)); const a=i*2.4, r=i<3?.5:i<9?1.15:0;
+      p.position.set(Math.cos(a)*(i?r:0), .2, Math.sin(a)*(i?r:0)); g.add(p);
+    }
+    for (let i=0;i<4;i++){
+      const b = new THREE.Mesh(new THREE.SphereGeometry(.16,10,10), M(0x16a34a)); b.scale.set(1,.3,1.6);
+      b.position.set(Math.cos(i*1.6+.5)*.9,.22,Math.sin(i*1.6+.5)*.9); b.rotation.y=i; g.add(b);
+    }
+    return g;
   }
-  for(let i=0;i<10;i++){
-    const c=makeIcon(i,rnd(.6,1)); c.position.set(rnd(-11,11),-rnd(2,DEPTH),rnd(-8,-1)); c.rotation.set(rnd(0,6),rnd(0,6),0);
-    items.push({o:c,rx:rnd(.1,.4),ry:rnd(.2,.5),ph:rnd(0,6),base:c.position.y}); scene.add(c);
+  function donut(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.TorusGeometry(.8,.42,14,28), M(0xd97706)));
+    const icing = new THREE.Mesh(new THREE.TorusGeometry(.8,.44,14,28,Math.PI*2), M(0xf472b6,.3)); icing.scale.z=.55; icing.position.z=.12; g.add(icing);
+    return g;
+  }
+  function iceCream(){
+    const g = new THREE.Group();
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(.6,1.6,16), M(0xd97706)); cone.rotation.x=Math.PI; g.add(cone);
+    const s1 = new THREE.Mesh(new THREE.SphereGeometry(.68,18,18), M(0xfda4af,.3)); s1.position.y=.85; g.add(s1);
+    const s2 = new THREE.Mesh(new THREE.SphereGeometry(.42,16,16), M(0xfef3c7,.3)); s2.position.y=1.5; g.add(s2);
+    return g;
+  }
+
+  // hero centrepiece
+  const hero3d = pizza(); hero3d.scale.setScalar(1.25); scene.add(hero3d);
+
+  // floating food down the page
+  const makers=[pizza,donut,iceCream];
+  for (let i=0;i<22;i++){
+    const g = makers[i%3](); g.scale.setScalar(rnd(.35,.7));
+    g.position.set((i%2?1:-1)*rnd(4.5,11), -rnd(2,DEPTH), rnd(-8,0));
+    g.rotation.set(rnd(0,6),rnd(0,6),0);
+    items.push({o:g, rx:rnd(.1,.4), ry:rnd(.2,.6), ph:rnd(0,6), base:g.position.y}); scene.add(g);
+  }
+  // tomatoes / oranges
+  const ballCols=[0xef4444,0xf97316,0x84cc16];
+  for (let i=0;i<40;i++){
+    const m = new THREE.Mesh(new THREE.SphereGeometry(1,16,16), M(ballCols[i%3],.35));
+    m.material.transparent=true; m.material.opacity=.7; m.scale.setScalar(rnd(.12,.4));
+    m.position.set(rnd(-12,12), -rnd(0,DEPTH), rnd(-9,2));
+    items.push({o:m, rx:0, ry:0, ph:rnd(0,6), base:m.position.y}); scene.add(m);
   }
   // sparkles
-  const N=420,pos=new Float32Array(N*3);
-  for(let i=0;i<N;i++){pos[i*3]=rnd(-16,16);pos[i*3+1]=-rnd(-4,DEPTH+4);pos[i*3+2]=rnd(-14,4);}
+  const N=450, pos=new Float32Array(N*3);
+  for (let i=0;i<N;i++){ pos[i*3]=rnd(-16,16); pos[i*3+1]=-rnd(-4,DEPTH+4); pos[i*3+2]=rnd(-14,4); }
   const pg=new THREE.BufferGeometry(); pg.setAttribute("position",new THREE.BufferAttribute(pos,3));
-  scene.add(new THREE.Points(pg,new THREE.PointsMaterial({color:0x8b5cf6,size:.07,transparent:true,opacity:.75})));
+  scene.add(new THREE.Points(pg,new THREE.PointsMaterial({color:0xf59e0b,size:.07,transparent:true,opacity:.8})));
 
-  setSceneTheme=d=>{ scene.fog.color.set(d?0x0f1424:0xf6f7fb); };
+  setSceneTheme = d=>{ scene.fog.color.set(d?0x160b05:0xffeedd); };
+
   let mx=0,my=0,cx=0,cy=0,camY=0;
-  addEventListener("pointermove",e=>{mx=(e.clientX/innerWidth-.5)*2;my=(e.clientY/innerHeight-.5)*2;});
+  addEventListener("pointermove",e=>{ mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2; });
   function resize(){
-    renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight,false); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
     const wide=innerWidth>850;
-    hero.position.set(wide?4.8:0,wide?0:3.6,0);hero.userData.y=hero.position.y;hero.scale.setScalar(wide?1:.65);
+    hero3d.position.set(wide?4.6:0, wide?0:3.4, 0); hero3d.userData.y=hero3d.position.y; hero3d.scale.setScalar(wide?1.25:.85);
   }
   camera.position.z=12; resize(); addEventListener("resize",resize);
+
   const clock=new THREE.Clock();
   (function loop(){
     requestAnimationFrame(loop);
-    const t=clock.getElapsedTime(),max=Math.max(1,document.documentElement.scrollHeight-innerHeight);
-    camY+=(-(scrollY/max)*DEPTH-camY)*.06; cx+=(mx*1.4-cx)*.05; cy+=(-my*.9-cy)*.05;
+    const t=clock.getElapsedTime();
+    const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+    camY += (-(scrollY/max)*DEPTH-camY)*.06;
+    cx += (mx*1.4-cx)*.05; cy += (-my*.9-cy)*.05;
     camera.position.set(cx,camY+cy,12);
-    if(!reduce){
-      stack.rotation.y=t*.5+mx*.5; stack.rotation.z=Math.sin(t*.6)*.08;
-      hero.position.y=hero.userData.y+Math.sin(t*1.2)*.3;
-      orbs.forEach((c,i)=>{const a=t*.6+i*Math.PI*2/5;c.position.set(Math.cos(a)*3.6,Math.sin(t+i)*.5+.4,Math.sin(a)*3.6);c.rotation.x+=.012;c.rotation.y+=.016;});
-      items.forEach(it=>{it.o.rotation.x+=it.rx*.01;it.o.rotation.y+=it.ry*.01;it.o.position.y=it.base+Math.sin(t*.8+it.ph)*.4;});
+    if (!reduce){
+      hero3d.rotation.set(.9+my*.2+Math.sin(t*.8)*.1, t*.6+mx*.5, .15);
+      hero3d.position.y = hero3d.userData.y + Math.sin(t*1.2)*.3;
+      items.forEach(it=>{ it.o.rotation.x+=it.rx*.01; it.o.rotation.y+=it.ry*.01; it.o.position.y=it.base+Math.sin(t*.8+it.ph)*.4; });
     }
     renderer.render(scene,camera);
   })();
 })();
 
-/* ===== CART / TOAST ===== */
-let cart=[], toastTimer;
-function showToast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2500);}
-function addToCart(name){
-  cart.push(name); $("cartCount").textContent=cart.length; showToast(name+" added to cart 🛒");
+/* ===== NAV / THEME ===== */
+function toggleMenu(){ $("navLinks").classList.toggle("active"); }
+document.querySelectorAll(".nav-links a").forEach(l=>l.addEventListener("click",()=>$("navLinks").classList.remove("active")));
+function toggleDarkMode(){ const d=document.body.classList.toggle("dark"); $("themeBtn").textContent=d?"☀️":"🌙"; setSceneTheme(d); }
+let toastT; function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),1800); }
+
+/* ===== MENU FILTER (class-based so it never fights the 3D tilt) ===== */
+function filterMenu(cat,btn){
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active");
+  document.querySelectorAll(".food-card").forEach(c=>{
+    const show = cat==="all" || c.dataset.category===cat;
+    c.classList.toggle("hide",!show); c.classList.remove("pop");
+    if (show){ void c.offsetWidth; c.classList.add("pop"); }
+  });
+}
+
+/* ===== CART ===== */
+let cart=[];
+function addToCart(name,price){
+  cart.push({name,price}); updateCart(); toast("🍴 "+name+" added to your cart");
   const b=$("cartBtn"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump");
 }
-function showCart(){ cart.length?showToast("Cart: "+cart.join(", ")):showToast("Your cart is empty."); }
-function showDetails(n,a,p){ showToast(n+" | Author: "+a+" | Price: "+p); }
-function scrollToBooks(){ $("books").scrollIntoView({behavior:"smooth"}); }
-function copyOffer(){
-  (navigator.clipboard?navigator.clipboard.writeText("READ20"):Promise.reject()).then(()=>showToast("Offer code READ20 copied! 🎉")).catch(()=>showToast("Use offer code: READ20"));
-}
-
-/* ===== SEARCH + CATEGORY FILTER (combined, class-based so tilt keeps working) ===== */
-let activeCat=null;
-function applyFilters(){
-  const q=$("searchInput").value.toLowerCase().trim(); let shown=0;
-  document.querySelectorAll(".book-card").forEach(b=>{
-    const ok=(!activeCat||b.dataset.category===activeCat)&&b.textContent.toLowerCase().includes(q);
-    const was=!b.classList.contains("hide");
-    b.classList.toggle("hide",!ok);
-    if(ok){ shown++; if(!was){ b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop"); } }
+function updateCart(){
+  $("cartCount").textContent=cart.length;
+  const box=$("cartItems");
+  if (!cart.length){ box.innerHTML='<p style="color:#777">Your cart is empty.</p>'; $("cartTotal").textContent="₹0"; return; }
+  let total=0; box.innerHTML="";
+  cart.forEach((it,i)=>{
+    total+=it.price;
+    const d=document.createElement("div"); d.className="cart-item";
+    d.innerHTML=`<div><div class="cart-item-name">${it.name}</div><div class="cart-item-price">₹${it.price}</div></div>
+      <button onclick="removeItem(${i})" style="border:0;background:#fee2e2;color:#dc2626;border-radius:8px;padding:5px 9px;cursor:pointer">Remove</button>`;
+    box.appendChild(d);
   });
-  $("empty").hidden=shown>0;
+  $("cartTotal").textContent="₹"+total;
 }
-function filterBooks(cat,el){
-  document.querySelectorAll(".category").forEach(c=>c.classList.remove("selected"));
-  if(activeCat===cat){ activeCat=null; showToast("Showing all books"); }
-  else{ activeCat=cat; el.classList.add("selected"); showToast("Showing "+cat+" books"); scrollToBooks(); }
-  applyFilters();
-}
-addEventListener("keydown",e=>{
-  if(e.key==="/"&&document.activeElement.tagName!=="INPUT"){e.preventDefault();$("searchInput").focus();}
-  if(e.key==="Escape"){ $("searchInput").value=""; activeCat=null; document.querySelectorAll(".category").forEach(c=>c.classList.remove("selected")); applyFilters(); }
-});
+function removeItem(i){ cart.splice(i,1); updateCart(); }
+function openCart(){ $("cart").classList.add("open"); }
+function closeCart(){ $("cart").classList.remove("open"); }
+function checkout(){ if(!cart.length){ toast("Your cart is empty"); return; } alert("🎉 Thank you for your order!"); cart=[]; updateCart(); closeCart(); }
 
-/* ===== THEME (saved, wrapped for safety) ===== */
-function setTheme(d){ document.body.classList.toggle("dark",d); $("themeBtn").textContent=d?"☀️":"🌙"; setSceneTheme(d); }
-$("themeBtn").addEventListener("click",()=>{ const d=!document.body.classList.contains("dark"); setTheme(d); try{localStorage.setItem("theme",d?"dark":"light");}catch(e){} });
-try{ if(localStorage.getItem("theme")==="dark") setTimeout(()=>setTheme(true),0); }catch(e){}
+/* ===== RESERVATION / CONTACT ===== */
+function openReservation(){ $("reservationModal").style.display="flex"; }
+function closeReservation(){ $("reservationModal").style.display="none"; }
+function reserveTable(e){ e.preventDefault(); alert("✅ Your table reservation has been received!"); closeReservation(); e.target.reset(); }
+function sendMessage(e){ e.preventDefault(); alert("Thank you "+$("name").value+"! Your message has been sent."); e.target.reset(); }
+function goTop(){ scrollTo({top:0,behavior:"smooth"}); }
+addEventListener("click",e=>{ if(e.target===$("reservationModal")) closeReservation(); });
+addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeReservation(); closeCart(); } });
 
-/* ===== NAV / SCROLL ===== */
-$("menuBtn").addEventListener("click",()=>$("nav").classList.toggle("open"));
-const links=[...document.querySelectorAll("nav a")], secs=links.map(a=>document.querySelector(a.getAttribute("href")));
-links.forEach(a=>a.addEventListener("click",()=>$("nav").classList.remove("open")));
+/* ===== SCROLL ===== */
+const links=[...document.querySelectorAll(".nav-links a")], secs=links.map(a=>document.querySelector(a.getAttribute("href")));
 addEventListener("scroll",()=>{
   const max=document.documentElement.scrollHeight-innerHeight;
   $("progress").style.width=(scrollY/max*100)+"%";
-  $("top").classList.toggle("small",scrollY>60);
-  let cur=0; secs.forEach((s,i)=>{ if(s&&s.offsetTop-160<=scrollY) cur=i; });
-  const contactHit=innerHeight+scrollY>=document.documentElement.scrollHeight-4; if(contactHit) cur=links.length-1;
+  $("nav").classList.toggle("small",scrollY>60);
+  $("topBtn").style.display=scrollY>400?"block":"none";
+  let cur=0; secs.forEach((s,i)=>{ if(s&&s.offsetTop-200<=scrollY) cur=i; });
   links.forEach((a,i)=>a.classList.toggle("on",i===cur));
-  if(!reduce&&scrollY<innerHeight) $("heroBox").style.transform=`translateY(${scrollY*.12}px)`;
+  if(!reduce) $("heroBox").style.transform=`translateY(${scrollY*.15}px)`;
 },{passive:true});
 
-/* ===== REVEAL ===== */
-const io=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("visible"); io.unobserve(en.target);} }),{threshold:.12});
-document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+/* ===== REVEAL + COUNTERS (start when visible) ===== */
+function count(el){
+  const target=+el.dataset.target; let cur=0;
+  (function step(){ cur+=target/80; if(cur<target){ el.textContent=Math.ceil(cur).toLocaleString(); requestAnimationFrame(step); } else el.textContent=target.toLocaleString()+"+"; })();
+}
+const io=new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting) return;
+  const el=en.target; el.classList.add("in");
+  const c=el.querySelector(".counter"); if(c) count(c);
+  if(el.classList.contains("tilt")) setTimeout(()=>{ el.style.transitionDelay=""; el.classList.add("ready"); },1000);
+  io.unobserve(el);
+}),{threshold:.15});
+document.querySelectorAll(".reveal").forEach((el,i)=>{ el.style.transitionDelay=(i%4)*70+"ms"; io.observe(el); });
 
 /* ===== 3D TILT + GLARE ===== */
 document.querySelectorAll(".tilt").forEach(card=>{
   card.addEventListener("mousemove",e=>{
-    if(reduce) return;
-    const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    if(reduce||!card.classList.contains("ready")) return;
+    const r=card.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
     card.style.transform=`perspective(800px) rotateX(${(y/r.height-.5)*-16}deg) rotateY(${(x/r.width-.5)*16}deg) translateY(-8px)`;
     card.style.setProperty("--gx",x/r.width*100+"%"); card.style.setProperty("--gy",y/r.height*100+"%");
   });
