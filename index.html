@@ -111,7 +111,7 @@ textarea{height:120px;resize:none}
 footer{background:var(--brown);color:#fff;text-align:center;padding:34px;line-height:1.8}
 .creator-name{margin-top:12px}
 .creator-name strong{color:#fdba74;letter-spacing:1px}
-#topBtn{display:none;position:fixed;right:25px;bottom:25px;width:50px;height:50px;border:0;border-radius:50%;background:var(--or2);color:#fff;font-size:22px;cursor:pointer;z-index:2000}
+#topBtn{display:none;position:fixed;right:25px;bottom:25px;width:50px;height:50px;border:0;border-radius:50%;background:var(--or2);color:#fff;font-size:22px;cursor:pointer;z-index:2000;box-shadow:0 10px 25px rgba(232,93,4,.4)}
 
 /* DARK */
 body.dark{background:linear-gradient(180deg,#160b05,#1f1008 60%,#160b05);color:#fff}
@@ -125,24 +125,39 @@ body.dark .section-title{text-shadow:none;color:#fb923c}
 body.dark .category{background:#3b2314;color:#fdba74}
 body.dark input,body.dark textarea,body.dark select{background:#160b05;color:#fff;border-color:#4a2c19}
 
-
-/* TICKER (motion) */
+/* TICKER */
 .ticker{overflow:hidden;background:linear-gradient(90deg,#e85d04,#ef4444);color:#fff;font-weight:bold;padding:14px 0;box-shadow:0 10px 30px rgba(232,93,4,.3)}
 .track{display:flex;width:max-content;animation:scrollx 30s linear infinite}
 .ticker:hover .track{animation-play-state:paused}
 .track span{padding:0 34px;white-space:nowrap}
 @keyframes scrollx{to{transform:translateX(-50%)}}
-/* PHOTO + ICON + DISCOUNT */
-.food-image{position:relative;display:block;height:175px;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#ffedd5,#fed7aa);font-size:inherit;filter:none;box-shadow:0 14px 28px rgba(0,0,0,.2)}
-.food-card:hover .food-image{transform:translateZ(80px) scale(1.05) rotate(-1deg)}
-.food-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s}
+
+/* ===== REAL FOOD PHOTOS: 3D photo cards ===== */
+.food-image{position:relative;display:block;height:185px;border-radius:18px;overflow:hidden;
+  background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.5),transparent 65%),linear-gradient(135deg,#ffedd5,#fed7aa);
+  perspective:900px;box-shadow:0 14px 28px rgba(0,0,0,.18);cursor:pointer}
+.food-card:hover .food-image{transform:translateZ(80px) scale(1.04) rotate(-1deg);box-shadow:0 30px 48px rgba(232,93,4,.32)}
+.food-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity .6s;opacity:0}
+.food-image img.loaded{opacity:1}
 .food-card:hover .food-image img{transform:scale(1.18) rotate(1.5deg)}
-.food-image .emoji{position:absolute;inset:0;display:grid;place-items:center;font-size:90px;filter:drop-shadow(0 14px 10px rgba(0,0,0,.3));animation:bob 4s ease-in-out infinite}
-.food-image:not(.noimg) .emoji{display:none}
+.food-image::before{content:"";position:absolute;top:0;left:-70%;width:55%;height:100%;z-index:2;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-18deg);transition:left .8s ease}
+.food-card:hover .food-image::before{left:130%}
+.food-image .emoji{position:absolute;inset:0;display:grid;place-items:center;font-size:90px;filter:drop-shadow(0 14px 10px rgba(0,0,0,.3));animation:bob 4s ease-in-out infinite;transition:opacity .4s}
+.food-image.hasimg .emoji{opacity:0}
 .food-image.noimg img,.food-image.noimg .icon-chip{display:none}
-.icon-chip{position:absolute;right:10px;bottom:10px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);font-size:24px;box-shadow:0 8px 18px rgba(0,0,0,.25);animation:bob 3.5s ease-in-out infinite}
+.icon-chip{position:absolute;right:10px;bottom:10px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);font-size:24px;box-shadow:0 8px 18px rgba(0,0,0,.25);animation:bob 3.5s ease-in-out infinite;z-index:3}
 @keyframes bob{50%{transform:translateY(-6px) rotate(6deg)}}
-.badge{position:absolute;top:14px;left:-6px;z-index:3;background:linear-gradient(135deg,#dc2626,#f97316);color:#fff;font-weight:bold;font-size:14px;padding:6px 16px 6px 12px;border-radius:0 20px 20px 0;transform:translateZ(90px);box-shadow:0 8px 16px rgba(220,38,38,.4)}
+.zoom-hint{position:absolute;left:10px;bottom:10px;z-index:3;font-size:11px;font-weight:bold;letter-spacing:.5px;
+  color:#fff;background:rgba(0,0,0,.55);padding:5px 10px;border-radius:20px;backdrop-filter:blur(4px);
+  opacity:0;transform:translateY(8px);transition:.35s}
+.food-card:hover .zoom-hint{opacity:1;transform:none}
+.live-chip{position:absolute;top:10px;right:10px;z-index:4;font-size:10px;font-weight:bold;letter-spacing:.5px;
+  color:#fff;background:rgba(22,163,74,.92);padding:4px 9px;border-radius:20px;opacity:0;transition:.4s}
+.food-card.realphoto .live-chip{opacity:1}
+.badge{position:absolute;top:14px;left:-6px;z-index:5;background:linear-gradient(135deg,#dc2626,#f97316);color:#fff;font-weight:bold;font-size:14px;padding:6px 16px 6px 12px;border-radius:0 20px 20px 0;transform:translateZ(90px);box-shadow:0 8px 16px rgba(220,38,38,.4)}
 .meta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
 .tag{font-size:12px;font-weight:bold;color:#b45309;background:#fef3c7;padding:4px 10px;border-radius:20px;transform:translateZ(25px)}
 .dot{width:14px;height:14px;border:2px solid #16a34a;border-radius:3px;position:relative;display:inline-block}
@@ -156,6 +171,13 @@ body.dark .food-image{background:linear-gradient(135deg,#3b2314,#24130b)}
 body.dark .price s{color:#8b7566}
 body.dark .tag{background:#3b2314;color:#fdba74}
 
+/* dish lightbox */
+#dishModal .modal-content{max-width:560px;text-align:center}
+#dishModal img{width:100%;border-radius:18px;box-shadow:0 25px 50px rgba(0,0,0,.35);animation:dishFloat 5s ease-in-out infinite}
+@keyframes dishFloat{50%{transform:translateY(-8px) rotateZ(-.6deg)}}
+#dishModal h2{margin:18px 0 4px}
+#dishModal .d-cat{color:#9a3412;font-weight:bold;font-size:13px;letter-spacing:1px}
+
 @media(max-width:850px){
  .menu-btn{display:block}
  .nav-links{display:none;position:absolute;top:100%;left:0;width:100%;flex-direction:column;text-align:center;padding:25px;background:#fff}
@@ -168,7 +190,7 @@ body.dark .tag{background:#3b2314;color:#fdba74}
 }
 @media(prefers-reduced-motion:reduce){
  .reveal{opacity:1;transform:none;transition:none}
- .hero-content,.hours-icon,.cart-btn.bump,.track,.emoji,.icon-chip{animation:none}
+ .hero-content,.hours-icon,.cart-btn.bump,.track,.emoji,.icon-chip,.food-card:hover .food-image img,#dishModal img{animation:none;transform:none}
  html{scroll-behavior:auto}
 }
 </style>
@@ -238,103 +260,103 @@ body.dark .tag{background:#3b2314;color:#fdba74}
   </div>
   <div class="menu-grid">
     <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-15%</span>
-      <div class="food-image"><img src="images/butter-paneer.jpg" alt="Butter Paneer Masala" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍛</span><span class="icon-chip">🍛</span></div>
+      <div class="food-image"><img src="images/butter-paneer.jpg" alt="Butter Paneer Masala"><span class="emoji">🍛</span><span class="icon-chip">🍛</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🔥 Bestseller</span></div>
       <h3>Butter Paneer Masala</h3><p>Creamy tomato-butter gravy with soft paneer.</p><div class="price"><span class="now">₹221</span> <s>₹260</s> <em class="off">15% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Butter Paneer Masala',221,260)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-10%</span>
-      <div class="food-image"><img src="images/dal-makhani.jpg" alt="Dal Makhani" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥣</span><span class="icon-chip">🥣</span></div>
+      <div class="food-image"><img src="images/dal-makhani.jpg" alt="Dal Makhani"><span class="emoji">🥣</span><span class="icon-chip">🥣</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Dal Makhani</h3><p>Slow-cooked black lentils finished with cream.</p><div class="price"><span class="now">₹180</span> <s>₹200</s> <em class="off">10% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Dal Makhani',180,200)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-20%</span>
-      <div class="food-image"><img src="images/chole-bhature.jpg" alt="Chole Bhature" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🫓</span><span class="icon-chip">🫓</span></div>
+      <div class="food-image"><img src="images/chole-bhature.jpg" alt="Chole Bhature"><span class="emoji">🫓</span><span class="icon-chip">🫓</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🌶️ Spicy</span></div>
       <h3>Chole Bhature</h3><p>Spicy chickpeas with fluffy fried bhature.</p><div class="price"><span class="now">₹120</span> <s>₹150</s> <em class="off">20% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Chole Bhature',120,150)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="north" data-deal="0">
-      <div class="food-image"><img src="images/paneer-tikka.jpg" alt="Paneer Tikka" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥘</span><span class="icon-chip">🥘</span></div>
+      <div class="food-image"><img src="images/paneer-tikka.jpg" alt="Paneer Tikka"><span class="emoji">🥘</span><span class="icon-chip">🥘</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Paneer Tikka</h3><p>Delicious spicy grilled paneer.</p><div class="price"><span class="now">₹180</span></div>
       <button class="add-btn" onclick="addToCart('Paneer Tikka',180,180)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-12%</span>
-      <div class="food-image"><img src="images/special-thali.jpg" alt="Special Thali" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍛</span><span class="icon-chip">🍛</span></div>
+      <div class="food-image"><img src="images/special-thali.jpg" alt="Special Thali"><span class="emoji">🍛</span><span class="icon-chip">🍛</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">⭐ Chef's pick</span></div>
       <h3>Special Thali</h3><p>Complete Indian meal with variety.</p><div class="price"><span class="now">₹194</span> <s>₹220</s> <em class="off">12% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Special Thali',194,220)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="north" data-deal="0">
-      <div class="food-image"><img src="images/garlic-naan.jpg" alt="Garlic Butter Naan" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🫓</span><span class="icon-chip">🫓</span></div>
+      <div class="food-image"><img src="images/garlic-naan.jpg" alt="Garlic Butter Naan"><span class="emoji">🫓</span><span class="icon-chip">🫓</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Garlic Butter Naan</h3><p>Tandoor-baked naan brushed with garlic butter.</p><div class="price"><span class="now">₹60</span></div>
       <button class="add-btn" onclick="addToCart('Garlic Butter Naan',60,60)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="south" data-deal="1"><span class="badge">-10%</span>
-      <div class="food-image"><img src="images/masala-dosa.jpg" alt="Masala Dosa" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥞</span><span class="icon-chip">🥞</span></div>
+      <div class="food-image"><img src="images/masala-dosa.jpg" alt="Masala Dosa"><span class="emoji">🥞</span><span class="icon-chip">🥞</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🔥 Bestseller</span></div>
       <h3>Masala Dosa</h3><p>Crispy rice crepe with spiced potato filling.</p><div class="price"><span class="now">₹108</span> <s>₹120</s> <em class="off">10% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Masala Dosa',108,120)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="south" data-deal="1"><span class="badge">-15%</span>
-      <div class="food-image"><img src="images/idli-sambar.jpg" alt="Idli Sambar" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍚</span><span class="icon-chip">🍚</span></div>
+      <div class="food-image"><img src="images/idli-sambar.jpg" alt="Idli Sambar"><span class="emoji">🍚</span><span class="icon-chip">🍚</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Idli Sambar</h3><p>Soft steamed idlis with sambar and chutney.</p><div class="price"><span class="now">₹76</span> <s>₹90</s> <em class="off">15% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Idli Sambar',76,90)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="south" data-deal="0">
-      <div class="food-image"><img src="images/medu-vada.jpg" alt="Medu Vada" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍩</span><span class="icon-chip">🍩</span></div>
+      <div class="food-image"><img src="images/medu-vada.jpg" alt="Medu Vada"><span class="emoji">🍩</span><span class="icon-chip">🍩</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Medu Vada</h3><p>Golden crispy lentil donuts, served hot.</p><div class="price"><span class="now">₹80</span></div>
       <button class="add-btn" onclick="addToCart('Medu Vada',80,80)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="south" data-deal="1"><span class="badge">-20%</span>
-      <div class="food-image"><img src="images/hyderabadi-biryani.jpg" alt="Hyderabadi Biryani" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍗</span><span class="icon-chip">🍗</span></div>
+      <div class="food-image"><img src="images/hyderabadi-biryani.jpg" alt="Hyderabadi Biryani"><span class="emoji">🍗</span><span class="icon-chip">🍗</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">South Indian</span><i class="dot nonveg" title="Non-vegetarian"></i><span class="tag">🌶️ Spicy</span></div>
       <h3>Hyderabadi Biryani</h3><p>Fragrant basmati layered with tender chicken.</p><div class="price"><span class="now">₹224</span> <s>₹280</s> <em class="off">20% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Hyderabadi Biryani',224,280)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="south" data-deal="0">
-      <div class="food-image"><img src="images/filter-coffee.jpg" alt="Filter Coffee" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">☕</span><span class="icon-chip">☕</span></div>
+      <div class="food-image"><img src="images/filter-coffee.jpg" alt="Filter Coffee"><span class="emoji">☕</span><span class="icon-chip">☕</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Filter Coffee</h3><p>Traditional South Indian decoction coffee.</p><div class="price"><span class="now">₹50</span></div>
       <button class="add-btn" onclick="addToCart('Filter Coffee',50,50)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="italian" data-deal="1"><span class="badge">-10%</span>
-      <div class="food-image"><img src="images/pizza.jpg" alt="Pizza" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍕</span><span class="icon-chip">🍕</span></div>
+      <div class="food-image"><img src="images/pizza.jpg" alt="Pizza"><span class="emoji">🍕</span><span class="icon-chip">🍕</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">Italian</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Pizza</h3><p>Fresh cheesy Italian pizza.</p><div class="price"><span class="now">₹225</span> <s>₹250</s> <em class="off">10% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Pizza',225,250)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="fastfood" data-deal="0">
-      <div class="food-image"><img src="images/veg-burger.jpg" alt="Veg Burger" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍔</span><span class="icon-chip">🍔</span></div>
+      <div class="food-image"><img src="images/veg-burger.jpg" alt="Veg Burger"><span class="emoji">🍔</span><span class="icon-chip">🍔</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">Fast Food</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Veg Burger</h3><p>Crispy vegetable burger.</p><div class="price"><span class="now">₹120</span></div>
       <button class="add-btn" onclick="addToCart('Veg Burger',120,120)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="beverage" data-deal="0">
-      <div class="food-image"><img src="images/cold-coffee.jpg" alt="Cold Coffee" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">☕</span><span class="icon-chip">☕</span></div>
+      <div class="food-image"><img src="images/cold-coffee.jpg" alt="Cold Coffee"><span class="emoji">☕</span><span class="icon-chip">☕</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">Beverage</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Cold Coffee</h3><p>Smooth and refreshing cold coffee.</p><div class="price"><span class="now">₹100</span></div>
       <button class="add-btn" onclick="addToCart('Cold Coffee',100,100)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="beverage" data-deal="1"><span class="badge">-15%</span>
-      <div class="food-image"><img src="images/mango-lassi.jpg" alt="Mango Lassi" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥛</span><span class="icon-chip">🥛</span></div>
+      <div class="food-image"><img src="images/mango-lassi.jpg" alt="Mango Lassi"><span class="emoji">🥛</span><span class="icon-chip">🥛</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">Beverage</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Mango Lassi</h3><p>Thick chilled yogurt drink with ripe mango.</p><div class="price"><span class="now">₹76</span> <s>₹90</s> <em class="off">15% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Mango Lassi',76,90)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="dessert" data-deal="1"><span class="badge">-25%</span>
-      <div class="food-image"><img src="images/gulab-jamun.jpg" alt="Gulab Jamun" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍮</span><span class="icon-chip">🍮</span></div>
+      <div class="food-image"><img src="images/gulab-jamun.jpg" alt="Gulab Jamun"><span class="emoji">🍮</span><span class="icon-chip">🍮</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">Dessert</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🎉 Deal</span></div>
       <h3>Gulab Jamun</h3><p>Warm milk dumplings soaked in rose syrup.</p><div class="price"><span class="now">₹60</span> <s>₹80</s> <em class="off">25% OFF</em></div>
       <button class="add-btn" onclick="addToCart('Gulab Jamun',60,80)">Add to Cart</button>
     </div>
     <div class="tilt food-card reveal" data-category="dessert" data-deal="0">
-      <div class="food-image"><img src="images/ice-cream.jpg" alt="Ice Cream" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍨</span><span class="icon-chip">🍨</span></div>
+      <div class="food-image"><img src="images/ice-cream.jpg" alt="Ice Cream"><span class="emoji">🍨</span><span class="icon-chip">🍨</span><span class="zoom-hint">🔍 VIEW 3D</span><span class="live-chip">📷 REAL</span></div>
       <div class="meta"><span class="category">Dessert</span><i class="dot veg" title="Vegetarian"></i></div>
       <h3>Ice Cream</h3><p>Creamy and delicious dessert.</p><div class="price"><span class="now">₹90</span></div>
       <button class="add-btn" onclick="addToCart('Ice Cream',90,90)">Add to Cart</button>
@@ -386,6 +408,15 @@ body.dark .tag{background:#3b2314;color:#fdba74}
   </div>
 </div>
 
+<div class="modal" id="dishModal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeDish()" aria-label="Close">×</button>
+    <img id="dishModalImg" alt="Dish preview">
+    <h2 id="dishModalName">Dish</h2>
+    <div class="d-cat" id="dishModalCat"></div>
+  </div>
+</div>
+
 <footer>
   <p>© 2026 Food Corner Restaurant</p>
   <p>Delicious Food | Great Taste | Happy Moments</p>
@@ -401,97 +432,344 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = id => document.getElementById(id);
 let setSceneTheme = ()=>{};
 
-/* ===== FULL-PAGE 3D BACKGROUND: hero pizza + floating pizzas, donuts, ice creams, sparkles ===== */
-(function(){
-  if (typeof THREE === "undefined") return;           // fallback: plain gradient if CDN blocked
-  const renderer = new THREE.WebGLRenderer({canvas:$("stage"), alpha:true, antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xffeedd, 12, 38);
-  const camera = new THREE.PerspectiveCamera(50,1,.1,80);
-  scene.add(new THREE.AmbientLight(0xffffff,.85));
-  const l1 = new THREE.PointLight(0xffd8a8,1.5,80); l1.position.set(8,7,10); scene.add(l1);
-  const l2 = new THREE.PointLight(0xef4444,.8,80); l2.position.set(-9,-5,6); scene.add(l2);
+/* ============================================================
+   1) FALLBACK ARTWORK (used until a real photo arrives, and
+      whenever the network / local file is unavailable)
+   ============================================================ */
+const canv=(w,h)=>{const c=document.createElement("canvas");c.width=w;c.height=h;return c;};
+function rr(x,X,Y,W,H,R){x.beginPath();if(x.roundRect)x.roundRect(X,Y,W,H,R);else x.rect(X,Y,W,H);}
 
-  const DEPTH = 46, rnd=(a,b)=>a+Math.random()*(b-a), M=(c,r=.5)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
-  const items = [];
+const DISH_PAL={
+  "North Indian":["#fb923c","#9a3412"],
+  "South Indian":["#f59e0b","#92400e"],
+  "Italian":["#ef4444","#7f1d1d"],
+  "Fast Food":["#f97316","#b45309"],
+  "Beverage":["#38bdf8","#0e7490"],
+  "Dessert":["#f472b6","#9d174d"],
+  "default":["#fb923c","#7c2d12"]
+};
+const GARNISH=["🌿","🌶️","🧄","🍋","🌽","🥕"];
+
+function dishCanvas(name,emoji,cat,seed){
+  const W=440,H=310,x=canv(W,H).getContext("2d"),c=x.canvas;
+  const [ca,cb]=DISH_PAL[cat]||DISH_PAL.default;
+  const g=x.createLinearGradient(0,0,W,H); g.addColorStop(0,ca); g.addColorStop(1,cb);
+  x.fillStyle=g; x.fillRect(0,0,W,H);
+  const rg=x.createRadialGradient(W*.5,H*.36,18,W*.5,H*.5,W*.78);
+  rg.addColorStop(0,"rgba(255,255,255,.55)"); rg.addColorStop(1,"rgba(0,0,0,.32)");
+  x.fillStyle=rg; x.fillRect(0,0,W,H);
+  x.save(); x.globalAlpha=.12; x.fillStyle="#fff"; x.beginPath();
+  x.moveTo(-W*.1,H*1.1); x.lineTo(W*.6,-H*.1); x.lineTo(W*.98,-H*.1); x.lineTo(W*.28,H*1.1);
+  x.closePath(); x.fill(); x.restore();
+  x.save(); x.globalAlpha=.28; x.fillStyle="#000";
+  x.beginPath(); x.ellipse(W*.5,H*.74,W*.36,H*.10,0,0,7); x.fill(); x.restore();
+  x.save();
+  x.shadowColor="rgba(0,0,0,.45)"; x.shadowBlur=26; x.shadowOffsetY=10;
+  x.fillStyle="#fff"; x.beginPath(); x.ellipse(W*.5,H*.56,W*.33,H*.40,0,0,7); x.fill();
+  x.restore();
+  x.strokeStyle="rgba(0,0,0,.08)"; x.lineWidth=5;
+  x.beginPath(); x.ellipse(W*.5,H*.56,W*.26,H*.31,0,0,7); x.stroke();
+  x.save(); x.globalAlpha=.22; x.strokeStyle="#fff"; x.lineWidth=4; x.lineCap="round";
+  for(let i=0;i<3;i++){
+    x.beginPath(); x.moveTo(W*(.40+i*.10),H*.20);
+    x.bezierCurveTo(W*(.36+i*.10),H*.12,W*(.46+i*.10),H*.10,W*(.42+i*.10),H*.03);
+    x.stroke();
+  }
+  x.restore();
+  x.save();
+  x.shadowColor="rgba(0,0,0,.38)"; x.shadowBlur=18; x.shadowOffsetY=9;
+  x.font=Math.round(H*.42)+"px Arial"; x.textAlign="center"; x.textBaseline="middle";
+  x.fillText(emoji,W*.5,H*.57);
+  x.restore();
+  x.font=Math.round(H*.075)+"px Arial"; x.textAlign="center"; x.textBaseline="middle";
+  [[0.18,0.86],[0.30,0.94],[0.72,0.92],[0.85,0.84],[0.66,0.20],[0.34,0.18]].forEach(p=>{
+    x.fillText(GARNISH[(seed+GARNISH.length)%GARNISH.length],W*p[0],H*p[1]);
+  });
+  x.strokeStyle="rgba(255,255,255,.85)"; x.lineWidth=10; rr(x,10,10,W-20,H-20,20); x.stroke();
+  x.strokeStyle="rgba(0,0,0,.16)"; x.lineWidth=2;  rr(x,21,21,W-42,H-42,14); x.stroke();
+  x.fillStyle="rgba(0,0,0,.42)"; rr(x,W*.62,H*.845,W*.33,H*.095,H*.047); x.fill();
+  x.fillStyle="#fff"; x.font="bold "+Math.round(H*.052)+"px Arial";
+  x.fillText(cat.toUpperCase().slice(0,14),W*.785,H*.895);
+  return c;
+}
+
+/* ============================================================
+   2) COLLECT DISHES FROM THE EXISTING CARDS
+   ============================================================ */
+const DISHES=[];
+document.querySelectorAll(".food-card").forEach((card,i)=>{
+  const name=((card.querySelector("h3")||{}).textContent||"Dish").trim();
+  const emoji=((card.querySelector(".emoji")||{}).textContent||"🍽️").trim();
+  const cat=((card.querySelector(".category")||{}).textContent||"default").trim();
+  const imgEl=card.querySelector(".food-image img");
+  DISHES.push({
+    name,emoji,cat,idx:i,imgEl,
+    local:imgEl?imgEl.getAttribute("src"):null,
+    canvas:dishCanvas(name,emoji,cat,i),
+    url:null, tex:null
+  });
+});
+DISHES.forEach(d=>d.url=d.canvas.toDataURL("image/jpeg",.9));
+
+/* ============================================================
+   3) REAL PHOTO SOURCES
+   Layer A: the local file already referenced in the HTML
+   Layer B: a verified Wikimedia Commons file
+   Layer C: the live Wikipedia lead image for that dish
+   ============================================================ */
+const WIKI_ARTICLE={
+  "Butter Paneer Masala":"Butter paneer",
+  "Dal Makhani":"Dal makhani",
+  "Chole Bhature":"Chole bhature",
+  "Paneer Tikka":"Paneer tikka",
+  "Special Thali":"Thali",
+  "Garlic Butter Naan":"Naan",
+  "Masala Dosa":"Masala dosa",
+  "Idli Sambar":"Idli",
+  "Medu Vada":"Medu vada",
+  "Hyderabadi Biryani":"Hyderabadi biryani",
+  "Filter Coffee":"Indian filter coffee",
+  "Pizza":"Pizza",
+  "Veg Burger":"Veggie burger",
+  "Cold Coffee":"Iced coffee",
+  "Mango Lassi":"Lassi",
+  "Gulab Jamun":"Gulab jamun",
+  "Ice Cream":"Ice cream"
+};
+
+const FIXED_PHOTO={
+  "Butter Paneer Masala":"https://commons.wikimedia.org/wiki/Special:FilePath/Popular%20Indian%20dish%2C%20Paneer%20Butter%20Masala.jpg?width=900",
+  "Masala Dosa":"https://commons.wikimedia.org/wiki/Special:FilePath/Masala%20Dosa%2C%20South%20Indian%20Food.jpg?width=900",
+  "Gulab Jamun":"https://commons.wikimedia.org/wiki/Special:FilePath/Gulab%20jamuns%20at%20an%20Indian%20Party.jpg?width=900"
+};
+
+/* turn a full-size upload.wikimedia.org URL into a sized thumbnail */
+function wikiThumb(url,width){
+  try{
+    const u=new URL(url);
+    if(!/upload\.wikimedia\.org$/.test(u.hostname)) return url;
+    const parts=u.pathname.split("/");
+    const file=parts.pop(), dir=parts.pop(), prefix=parts.join("/");
+    const outName=/\.svg$/i.test(file)?file+".png":file;
+    return u.origin+prefix+"/thumb/"+dir+"/"+file+"/"+width+"px-"+outName;
+  }catch(e){ return url; }
+}
+
+function probeImage(url,timeout=7000){
+  return new Promise(resolve=>{
+    let done=false;
+    const finish=v=>{ if(!done){ done=true; resolve(v); } };
+    const im=new Image();
+    im.crossOrigin="anonymous";           /* keeps the canvas / WebGL texture clean */
+    im.onload =()=>finish(im.naturalWidth>16?url:false);
+    im.onerror=()=>finish(false);
+    im.src=url;
+    setTimeout(()=>finish(false),timeout);
+  });
+}
+
+async function findRealPhoto(d){
+  if(d.local && await probeImage(d.local)) return d.local;                     /* Layer A */
+  if(FIXED_PHOTO[d.name] && await probeImage(FIXED_PHOTO[d.name])) return FIXED_PHOTO[d.name]; /* Layer B */
+  const title=WIKI_ARTICLE[d.name];
+  if(title){                                                                   /* Layer C */
+    try{
+      const res=await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title),
+                            {headers:{Accept:"application/json"}});
+      if(res.ok){
+        const j=await res.json();
+        const src=(j.originalimage&&j.originalimage.source)||(j.thumbnail&&j.thumbnail.source);
+        if(src){ const sized=wikiThumb(src,900); if(await probeImage(sized)) return sized; }
+      }
+    }catch(e){}
+  }
+  return null;
+}
+
+/* paint a real photo into the shared canvas (cover-fit) so the
+   card image, the lightbox AND the 3D panels all show it */
+function paintIntoCanvas(d,url){
+  const im=new Image();
+  im.crossOrigin="anonymous";
+  im.onload=()=>{
+    try{
+      const x=d.canvas.getContext("2d"), W=d.canvas.width, H=d.canvas.height;
+      const s=Math.max(W/im.naturalWidth,H/im.naturalHeight);
+      const w=im.naturalWidth*s, h=im.naturalHeight*s;
+      x.clearRect(0,0,W,H);
+      x.drawImage(im,(W-w)/2,(H-h)/2,w,h);
+      x.fillStyle="rgba(0,0,0,.30)"; x.fillRect(0,H-30,W,30);
+      x.fillStyle="#fff"; x.font="bold 15px Arial"; x.textAlign="left"; x.textBaseline="middle";
+      x.fillText("📷 "+d.name,W*.04,H-15);
+      if(d.tex) d.tex.needsUpdate=true;
+    }catch(e){}
+  };
+  im.src=url;
+}
+
+function applyRealPhoto(d,url){
+  d.url=url;
+  paintIntoCanvas(d,url);
+  const img=d.imgEl, box=img&&img.parentNode;
+  if(img){
+    img.crossOrigin="anonymous";
+    img.src=url;
+    img.onload=()=>{ img.classList.add("loaded"); box.classList.remove("noimg"); box.classList.add("hasimg"); };
+    img.onerror=()=>{ img.src=d.canvas.toDataURL("image/jpeg",.9); img.classList.add("loaded"); box.classList.add("hasimg"); };
+  }
+  const card=d.imgEl&&d.imgEl.closest(".food-card");
+  if(card) card.classList.add("realphoto");
+}
+
+/* run all lookups in parallel, apply as each one lands */
+DISHES.forEach(d=>{
+  findRealPhoto(d).then(url=>{
+    if(url) applyRealPhoto(d,url);
+    else if(d.imgEl){                        /* offline: show generated art */
+      d.imgEl.src=d.canvas.toDataURL("image/jpeg",.9);
+      d.imgEl.classList.add("loaded");
+      d.imgEl.parentNode.classList.add("hasimg");
+    }
+  });
+  /* click the photo -> 3D lightbox */
+  const box=d.imgEl&&d.imgEl.parentNode;
+  if(box) box.addEventListener("click",()=>openDish(d.idx));
+});
+
+/* ============================================================
+   4) 3D LIGHTBOX
+   ============================================================ */
+function openDish(i){
+  const d=DISHES[i]; if(!d) return;
+  $("dishModalImg").src=d.url; $("dishModalImg").alt=d.name;
+  $("dishModalName").textContent=d.name; $("dishModalCat").textContent=d.cat.toUpperCase();
+  $("dishModal").style.display="flex";
+}
+function closeDish(){ $("dishModal").style.display="none"; }
+
+/* ============================================================
+   5) THREE.JS SCENE — real photos as textured 3D panels
+   ============================================================ */
+function dishTex(d){
+  if(!d.tex) d.tex=new THREE.CanvasTexture(d.canvas);
+  return d.tex;
+}
+function makePhoto(d,w=2.1,h=1.48){
+  const g=new THREE.Group();
+  const face=new THREE.Mesh(new THREE.PlaneGeometry(w,h),
+    new THREE.MeshBasicMaterial({map:dishTex(d),transparent:true,side:THREE.DoubleSide}));
+  const frame=new THREE.Mesh(new THREE.BoxGeometry(w*1.06,h*1.08,.08),
+    new THREE.MeshStandardMaterial({color:0xffffff,roughness:.45}));
+  frame.position.z=-.05;
+  g.add(frame,face);
+  return g;
+}
+
+(function(){
+  if(typeof THREE==="undefined") return;
+  const renderer=new THREE.WebGLRenderer({canvas:$("stage"),alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene=new THREE.Scene();
+  scene.fog=new THREE.Fog(0xffeedd,12,40);
+  const camera=new THREE.PerspectiveCamera(50,1,.1,90);
+  scene.add(new THREE.AmbientLight(0xffffff,.9));
+  const l1=new THREE.PointLight(0xffd8a8,1.5,90); l1.position.set(8,7,10); scene.add(l1);
+  const l2=new THREE.PointLight(0xef4444,.8,90);  l2.position.set(-9,-5,6);  scene.add(l2);
+
+  const DEPTH=48, rnd=(a,b)=>a+Math.random()*(b-a), M=(c,r=.5)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
+  const items=[];
 
   function pizza(){
-    const g = new THREE.Group();
-    const crust = new THREE.Mesh(new THREE.CylinderGeometry(2,2,.3,40), M(0xd97706)); g.add(crust);
-    const cheese = new THREE.Mesh(new THREE.CylinderGeometry(1.75,1.75,.34,40), M(0xfbbf24,.35)); g.add(cheese);
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.9,.16,10,40), M(0xb45309)); ring.rotation.x=Math.PI/2; ring.position.y=.1; g.add(ring);
-    const pepGeo = new THREE.CylinderGeometry(.22,.22,.08,16);
-    for (let i=0;i<9;i++){
-      const p = new THREE.Mesh(pepGeo, M(0xdc2626)); const a=i*2.4, r=i<3?.5:i<9?1.15:0;
-      p.position.set(Math.cos(a)*(i?r:0), .2, Math.sin(a)*(i?r:0)); g.add(p);
+    const g=new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(2,2,.3,40),M(0xd97706)));
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(1.75,1.75,.34,40),M(0xfbbf24,.35)));
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(1.9,.16,10,40),M(0xb45309));
+    ring.rotation.x=Math.PI/2; ring.position.y=.1; g.add(ring);
+    const pepGeo=new THREE.CylinderGeometry(.22,.22,.08,16);
+    for(let i=0;i<9;i++){
+      const p=new THREE.Mesh(pepGeo,M(0xdc2626)), a=i*2.4, r=i<3?.5:1.15;
+      p.position.set(Math.cos(a)*r,.2,Math.sin(a)*r); g.add(p);
     }
-    for (let i=0;i<4;i++){
-      const b = new THREE.Mesh(new THREE.SphereGeometry(.16,10,10), M(0x16a34a)); b.scale.set(1,.3,1.6);
-      b.position.set(Math.cos(i*1.6+.5)*.9,.22,Math.sin(i*1.6+.5)*.9); b.rotation.y=i; g.add(b);
+    for(let i=0;i<4;i++){
+      const b=new THREE.Mesh(new THREE.SphereGeometry(.16,10,10),M(0x16a34a));
+      b.scale.set(1,.3,1.6); b.position.set(Math.cos(i*1.6+.5)*.9,.22,Math.sin(i*1.6+.5)*.9); g.add(b);
     }
     return g;
   }
   function donut(){
-    const g = new THREE.Group();
-    g.add(new THREE.Mesh(new THREE.TorusGeometry(.8,.42,14,28), M(0xd97706)));
-    const icing = new THREE.Mesh(new THREE.TorusGeometry(.8,.44,14,28,Math.PI*2), M(0xf472b6,.3)); icing.scale.z=.55; icing.position.z=.12; g.add(icing);
+    const g=new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.TorusGeometry(.8,.42,14,28),M(0xd97706)));
+    const icing=new THREE.Mesh(new THREE.TorusGeometry(.8,.44,14,28),M(0xf472b6,.3));
+    icing.scale.z=.55; icing.position.z=.12; g.add(icing);
     return g;
   }
   function iceCream(){
-    const g = new THREE.Group();
-    const cone = new THREE.Mesh(new THREE.ConeGeometry(.6,1.6,16), M(0xd97706)); cone.rotation.x=Math.PI; g.add(cone);
-    const s1 = new THREE.Mesh(new THREE.SphereGeometry(.68,18,18), M(0xfda4af,.3)); s1.position.y=.85; g.add(s1);
-    const s2 = new THREE.Mesh(new THREE.SphereGeometry(.42,16,16), M(0xfef3c7,.3)); s2.position.y=1.5; g.add(s2);
+    const g=new THREE.Group();
+    const cone=new THREE.Mesh(new THREE.ConeGeometry(.6,1.6,16),M(0xd97706)); cone.rotation.x=Math.PI; g.add(cone);
+    const s1=new THREE.Mesh(new THREE.SphereGeometry(.68,18,18),M(0xfda4af,.3)); s1.position.y=.85; g.add(s1);
+    const s2=new THREE.Mesh(new THREE.SphereGeometry(.42,16,16),M(0xfef3c7,.3)); s2.position.y=1.5; g.add(s2);
     return g;
   }
-
-  // hero centrepiece
-  const hero3d = pizza(); hero3d.scale.setScalar(1.25); scene.add(hero3d);
-
-  // floating food down the page
   function dosa(){
-    const g=new THREE.Group(), r=new THREE.Mesh(new THREE.CylinderGeometry(.3,.16,2.6,20),M(0xe0a458,.6)); r.rotation.z=Math.PI/2; g.add(r);
-    const f=new THREE.Mesh(new THREE.SphereGeometry(.24,10,10),M(0xf59e0b)); f.position.x=1.35; f.scale.set(1.2,.9,.9); g.add(f); return g;
-  }
-  function samosa(){
-    const g=new THREE.Group(), c=new THREE.Mesh(new THREE.ConeGeometry(.95,1.3,3),M(0xd97706,.6)); c.rotation.y=.5; g.add(c); return g;
+    const g=new THREE.Group();
+    const r=new THREE.Mesh(new THREE.CylinderGeometry(.3,.16,2.6,20),M(0xe0a458,.6)); r.rotation.z=Math.PI/2; g.add(r);
+    const f=new THREE.Mesh(new THREE.SphereGeometry(.24,10,10),M(0xf59e0b)); f.position.x=1.35; f.scale.set(1.2,.9,.9); g.add(f);
+    return g;
   }
   function curry(){
     const g=new THREE.Group();
-    g.add(new THREE.Mesh(new THREE.SphereGeometry(1,24,16,0,Math.PI*2,Math.PI/2,Math.PI/2),new THREE.MeshStandardMaterial({color:0xf3f4f6,side:THREE.DoubleSide,roughness:.3})));
+    g.add(new THREE.Mesh(new THREE.SphereGeometry(1,24,16,0,Math.PI*2,Math.PI/2,Math.PI/2),
+      new THREE.MeshStandardMaterial({color:0xf3f4f6,side:THREE.DoubleSide,roughness:.3})));
     const s=new THREE.Mesh(new THREE.CircleGeometry(.96,24),M(0xea580c,.4)); s.rotation.x=-Math.PI/2; g.add(s);
-    const p=new THREE.Mesh(new THREE.SphereGeometry(.16,10,10),M(0xfef3c7)); p.position.set(.2,.03,.1); g.add(p); return g;
+    return g;
   }
-  const makers=[pizza,donut,iceCream,dosa,samosa,curry];
-  for (let i=0;i<30;i++){
-    const g = makers[i%6](); g.scale.setScalar(rnd(.35,.7));
-    g.position.set((i%2?1:-1)*rnd(4.5,11), -rnd(2,DEPTH), rnd(-8,0));
+  const makers=[pizza,donut,iceCream,dosa,curry];
+
+  const hero=new THREE.Group();
+  const heroPizza=pizza(); heroPizza.scale.setScalar(1.22); hero.add(heroPizza);
+  const carousel=new THREE.Group(), panels=[];
+  DISHES.slice(0,6).forEach(d=>{ const p=makePhoto(d,2.0,1.4); carousel.add(p); panels.push(p); });
+  hero.add(carousel); scene.add(hero);
+
+  for(let i=0;i<18;i++){
+    const d=DISHES[(i*3+2)%DISHES.length];
+    const p=makePhoto(d,rnd(1.5,2.2),rnd(1.05,1.55));
+    p.position.set((i%2?1:-1)*rnd(4.5,11),-i*(DEPTH/18)-rnd(1,3),rnd(-7,-1));
+    p.rotation.set(rnd(-.25,.25),rnd(-.6,.6),rnd(-.2,.2));
+    items.push({o:p,rx:rnd(.03,.12),ry:rnd(.15,.4),ph:rnd(0,6),base:p.position.y});
+    scene.add(p);
+  }
+  for(let i=0;i<26;i++){
+    const g=makers[i%makers.length](); g.scale.setScalar(rnd(.35,.7));
+    g.position.set((i%2?1:-1)*rnd(4.5,11),-rnd(2,DEPTH),rnd(-8,0));
     g.rotation.set(rnd(0,6),rnd(0,6),0);
-    items.push({o:g, rx:rnd(.1,.4), ry:rnd(.2,.6), ph:rnd(0,6), base:g.position.y}); scene.add(g);
+    items.push({o:g,rx:rnd(.1,.4),ry:rnd(.2,.6),ph:rnd(0,6),base:g.position.y});
+    scene.add(g);
   }
-  // tomatoes / oranges
   const ballCols=[0xef4444,0xf97316,0x84cc16];
-  for (let i=0;i<40;i++){
-    const m = new THREE.Mesh(new THREE.SphereGeometry(1,16,16), M(ballCols[i%3],.35));
+  for(let i=0;i<40;i++){
+    const m=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),M(ballCols[i%3],.35));
     m.material.transparent=true; m.material.opacity=.7; m.scale.setScalar(rnd(.12,.4));
-    m.position.set(rnd(-12,12), -rnd(0,DEPTH), rnd(-9,2));
-    items.push({o:m, rx:0, ry:0, ph:rnd(0,6), base:m.position.y}); scene.add(m);
+    m.position.set(rnd(-12,12),-rnd(0,DEPTH),rnd(-9,2));
+    items.push({o:m,rx:0,ry:0,ph:rnd(0,6),base:m.position.y});
+    scene.add(m);
   }
-  // sparkles
-  const N=450, pos=new Float32Array(N*3);
-  for (let i=0;i<N;i++){ pos[i*3]=rnd(-16,16); pos[i*3+1]=-rnd(-4,DEPTH+4); pos[i*3+2]=rnd(-14,4); }
+  const N=450,pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){ pos[i*3]=rnd(-16,16); pos[i*3+1]=-rnd(-4,DEPTH+4); pos[i*3+2]=rnd(-14,4); }
   const pg=new THREE.BufferGeometry(); pg.setAttribute("position",new THREE.BufferAttribute(pos,3));
   scene.add(new THREE.Points(pg,new THREE.PointsMaterial({color:0xf59e0b,size:.07,transparent:true,opacity:.8})));
 
-  setSceneTheme = d=>{ scene.fog.color.set(d?0x160b05:0xffeedd); };
+  setSceneTheme=d=>{ scene.fog.color.set(d?0x160b05:0xffeedd); };
 
   let mx=0,my=0,cx=0,cy=0,camY=0;
   addEventListener("pointermove",e=>{ mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2; });
   function resize(){
-    renderer.setSize(innerWidth,innerHeight,false); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight,false);
+    camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
     const wide=innerWidth>850;
-    hero3d.position.set(wide?4.6:0, wide?0:3.4, 0); hero3d.userData.y=hero3d.position.y; hero3d.scale.setScalar(wide?1.25:.85);
+    hero.position.set(wide?4.6:0, wide?0:3.4, 0);
+    hero.userData.y=hero.position.y;
+    hero.scale.setScalar(wide?1.0:.72);
   }
   camera.position.z=12; resize(); addEventListener("resize",resize);
 
@@ -503,32 +781,47 @@ let setSceneTheme = ()=>{};
     camY += (-(scrollY/max)*DEPTH-camY)*.06;
     cx += (mx*1.4-cx)*.05; cy += (-my*.9-cy)*.05;
     camera.position.set(cx,camY+cy,12);
-    if (!reduce){
-      hero3d.rotation.set(.9+my*.2+Math.sin(t*.8)*.1, t*.6+mx*.5, .15);
-      hero3d.position.y = hero3d.userData.y + Math.sin(t*1.2)*.3;
-      items.forEach(it=>{ it.o.rotation.x+=it.rx*.01; it.o.rotation.y+=it.ry*.01; it.o.position.y=it.base+Math.sin(t*.8+it.ph)*.4; });
+
+    if(!reduce){
+      heroPizza.rotation.set(.9+my*.2+Math.sin(t*.8)*.1, t*.6+mx*.5, .15);
+      hero.position.y = hero.userData.y + Math.sin(t*1.2)*.3;
+      panels.forEach((p,i)=>{
+        const a=t*.5 + i*(Math.PI*2/panels.length);
+        p.position.set(Math.cos(a)*3.7, Math.sin(t*.9+i)*.55+.3, Math.sin(a)*3.7);
+        p.lookAt(0,0,0); p.rotateZ(Math.sin(t+i)*.06);
+      });
+      items.forEach(it=>{
+        it.o.rotation.x+=it.rx*.01; it.o.rotation.y+=it.ry*.01;
+        it.o.position.y=it.base+Math.sin(t*.8+it.ph)*.4;
+      });
     }
     renderer.render(scene,camera);
   })();
 })();
 
-/* ===== NAV / THEME ===== */
+/* ============================================================
+   6) NAV / THEME / TOAST
+   ============================================================ */
 function toggleMenu(){ $("navLinks").classList.toggle("active"); }
 document.querySelectorAll(".nav-links a").forEach(l=>l.addEventListener("click",()=>$("navLinks").classList.remove("active")));
 function toggleDarkMode(){ const d=document.body.classList.toggle("dark"); $("themeBtn").textContent=d?"☀️":"🌙"; setSceneTheme(d); }
 let toastT; function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),1800); }
 
-/* ===== MENU FILTER (class-based so it never fights the 3D tilt) ===== */
+/* ============================================================
+   7) MENU FILTER
+   ============================================================ */
 function filterMenu(cat,btn){
   document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active");
   document.querySelectorAll(".food-card").forEach(c=>{
     const show = cat==="all" || (cat==="deals" ? c.dataset.deal==="1" : c.dataset.category===cat);
     c.classList.toggle("hide",!show); c.classList.remove("pop");
-    if (show){ void c.offsetWidth; c.classList.add("pop"); }
+    if(show){ void c.offsetWidth; c.classList.add("pop"); }
   });
 }
 
-/* ===== CART ===== */
+/* ============================================================
+   8) CART
+   ============================================================ */
 let cart=[];
 function addToCart(name,price,orig){
   cart.push({name,price,orig:orig||price}); updateCart(); toast("🍴 "+name+" added to your cart");
@@ -537,8 +830,8 @@ function addToCart(name,price,orig){
 function updateCart(){
   $("cartCount").textContent=cart.length;
   const box=$("cartItems");
-  if (!cart.length){ box.innerHTML='<p style="color:#777">Your cart is empty.</p>'; $("cartTotal").textContent="₹0"; $("cartSaved").textContent=""; return; }
-  let total=0, saved=0; box.innerHTML="";
+  if(!cart.length){ box.innerHTML='<p style="color:#777">Your cart is empty.</p>'; $("cartTotal").textContent="₹0"; $("cartSaved").textContent=""; return; }
+  let total=0,saved=0; box.innerHTML="";
   cart.forEach((it,i)=>{
     total+=it.price; saved+=it.orig-it.price;
     const d=document.createElement("div"); d.className="cart-item";
@@ -554,16 +847,20 @@ function openCart(){ $("cart").classList.add("open"); }
 function closeCart(){ $("cart").classList.remove("open"); }
 function checkout(){ if(!cart.length){ toast("Your cart is empty"); return; } alert("🎉 Thank you for your order!"); cart=[]; updateCart(); closeCart(); }
 
-/* ===== RESERVATION / CONTACT ===== */
+/* ============================================================
+   9) RESERVATION / CONTACT
+   ============================================================ */
 function openReservation(){ $("reservationModal").style.display="flex"; }
 function closeReservation(){ $("reservationModal").style.display="none"; }
 function reserveTable(e){ e.preventDefault(); alert("✅ Your table reservation has been received!"); closeReservation(); e.target.reset(); }
 function sendMessage(e){ e.preventDefault(); alert("Thank you "+$("name").value+"! Your message has been sent."); e.target.reset(); }
 function goTop(){ scrollTo({top:0,behavior:"smooth"}); }
-addEventListener("click",e=>{ if(e.target===$("reservationModal")) closeReservation(); });
-addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeReservation(); closeCart(); } });
+addEventListener("click",e=>{ if(e.target===$("reservationModal")) closeReservation(); if(e.target===$("dishModal")) closeDish(); });
+addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeReservation(); closeCart(); closeDish(); } });
 
-/* ===== SCROLL ===== */
+/* ============================================================
+   10) SCROLL
+   ============================================================ */
 const links=[...document.querySelectorAll(".nav-links a")], secs=links.map(a=>document.querySelector(a.getAttribute("href")));
 addEventListener("scroll",()=>{
   const max=document.documentElement.scrollHeight-innerHeight;
@@ -575,10 +872,16 @@ addEventListener("scroll",()=>{
   if(!reduce) $("heroBox").style.transform=`translateY(${scrollY*.15}px)`;
 },{passive:true});
 
-/* ===== REVEAL + COUNTERS (start when visible) ===== */
+/* ============================================================
+   11) REVEAL + COUNTERS
+   ============================================================ */
 function count(el){
   const target=+el.dataset.target; let cur=0;
-  (function step(){ cur+=target/80; if(cur<target){ el.textContent=Math.ceil(cur).toLocaleString(); requestAnimationFrame(step); } else el.textContent=target.toLocaleString()+"+"; })();
+  (function step(){
+    cur+=target/80;
+    if(cur<target){ el.textContent=Math.ceil(cur).toLocaleString(); requestAnimationFrame(step); }
+    else el.textContent=target.toLocaleString()+"+";
+  })();
 }
 const io=new IntersectionObserver(es=>es.forEach(en=>{
   if(!en.isIntersecting) return;
@@ -589,13 +892,16 @@ const io=new IntersectionObserver(es=>es.forEach(en=>{
 }),{threshold:.15});
 document.querySelectorAll(".reveal").forEach((el,i)=>{ el.style.transitionDelay=(i%4)*70+"ms"; io.observe(el); });
 
-/* ===== 3D TILT + GLARE ===== */
+/* ============================================================
+   12) 3D TILT + GLARE
+   ============================================================ */
 document.querySelectorAll(".tilt").forEach(card=>{
   card.addEventListener("mousemove",e=>{
     if(reduce||!card.classList.contains("ready")) return;
     const r=card.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
     card.style.transform=`perspective(800px) rotateX(${(y/r.height-.5)*-16}deg) rotateY(${(x/r.width-.5)*16}deg) translateY(-8px)`;
-    card.style.setProperty("--gx",x/r.width*100+"%"); card.style.setProperty("--gy",y/r.height*100+"%");
+    card.style.setProperty("--gx",x/r.width*100+"%");
+    card.style.setProperty("--gy",y/r.height*100+"%");
   });
   card.addEventListener("mouseleave",()=>{ card.style.transform=""; });
 });
