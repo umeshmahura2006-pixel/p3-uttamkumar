@@ -70,8 +70,7 @@ section{padding:90px 8%}
 .food-card.hide{display:none}
 .food-card.pop{animation:pop .45s cubic-bezier(.2,.8,.2,1)}
 @keyframes pop{from{opacity:0;transform:scale(.7) rotateY(60deg)}}
-.food-image{height:150px;display:flex;align-items:center;justify-content:center;font-size:100px;transform:translateZ(50px);transition:.4s;filter:drop-shadow(0 18px 12px rgba(0,0,0,.25))}
-.food-card:hover .food-image{transform:translateZ(80px) scale(1.1) rotate(6deg)}
+.food-image{transform:translateZ(50px);transition:transform .5s}
 .food-card h3{color:var(--dk);font-size:23px;margin:10px 0;transform:translateZ(30px)}
 .food-card p{transform:translateZ(15px)}
 .category{color:#9a3412;font-size:13px;background:#ffedd5;display:inline-block;padding:5px 12px;border-radius:20px;transform:translateZ(25px)}
@@ -126,6 +125,37 @@ body.dark .section-title{text-shadow:none;color:#fb923c}
 body.dark .category{background:#3b2314;color:#fdba74}
 body.dark input,body.dark textarea,body.dark select{background:#160b05;color:#fff;border-color:#4a2c19}
 
+
+/* TICKER (motion) */
+.ticker{overflow:hidden;background:linear-gradient(90deg,#e85d04,#ef4444);color:#fff;font-weight:bold;padding:14px 0;box-shadow:0 10px 30px rgba(232,93,4,.3)}
+.track{display:flex;width:max-content;animation:scrollx 30s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.track span{padding:0 34px;white-space:nowrap}
+@keyframes scrollx{to{transform:translateX(-50%)}}
+/* PHOTO + ICON + DISCOUNT */
+.food-image{position:relative;display:block;height:175px;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#ffedd5,#fed7aa);font-size:inherit;filter:none;box-shadow:0 14px 28px rgba(0,0,0,.2)}
+.food-card:hover .food-image{transform:translateZ(80px) scale(1.05) rotate(-1deg)}
+.food-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s}
+.food-card:hover .food-image img{transform:scale(1.18) rotate(1.5deg)}
+.food-image .emoji{position:absolute;inset:0;display:grid;place-items:center;font-size:90px;filter:drop-shadow(0 14px 10px rgba(0,0,0,.3));animation:bob 4s ease-in-out infinite}
+.food-image:not(.noimg) .emoji{display:none}
+.food-image.noimg img,.food-image.noimg .icon-chip{display:none}
+.icon-chip{position:absolute;right:10px;bottom:10px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);font-size:24px;box-shadow:0 8px 18px rgba(0,0,0,.25);animation:bob 3.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(6deg)}}
+.badge{position:absolute;top:14px;left:-6px;z-index:3;background:linear-gradient(135deg,#dc2626,#f97316);color:#fff;font-weight:bold;font-size:14px;padding:6px 16px 6px 12px;border-radius:0 20px 20px 0;transform:translateZ(90px);box-shadow:0 8px 16px rgba(220,38,38,.4)}
+.meta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tag{font-size:12px;font-weight:bold;color:#b45309;background:#fef3c7;padding:4px 10px;border-radius:20px;transform:translateZ(25px)}
+.dot{width:14px;height:14px;border:2px solid #16a34a;border-radius:3px;position:relative;display:inline-block}
+.dot::after{content:"";position:absolute;inset:2px;border-radius:50%;background:#16a34a}
+.dot.nonveg{border-color:#dc2626}.dot.nonveg::after{background:#dc2626}
+.price .now{font-size:24px}
+.price s{color:#9ca3af;font-size:15px;font-weight:normal}
+.price .off{font-style:normal;font-size:12px;color:#fff;background:#16a34a;padding:3px 8px;border-radius:12px;vertical-align:middle}
+.cart-saved{margin-top:12px;color:#16a34a;font-weight:bold;text-align:right}
+body.dark .food-image{background:linear-gradient(135deg,#3b2314,#24130b)}
+body.dark .price s{color:#8b7566}
+body.dark .tag{background:#3b2314;color:#fdba74}
+
 @media(max-width:850px){
  .menu-btn{display:block}
  .nav-links{display:none;position:absolute;top:100%;left:0;width:100%;flex-direction:column;text-align:center;padding:25px;background:#fff}
@@ -138,7 +168,7 @@ body.dark input,body.dark textarea,body.dark select{background:#160b05;color:#ff
 }
 @media(prefers-reduced-motion:reduce){
  .reveal{opacity:1;transform:none;transition:none}
- .hero-content,.hours-icon,.cart-btn.bump{animation:none}
+ .hero-content,.hours-icon,.cart-btn.bump,.track,.emoji,.icon-chip{animation:none}
  html{scroll-behavior:auto}
 }
 </style>
@@ -177,6 +207,8 @@ body.dark input,body.dark textarea,body.dark select{background:#160b05;color:#ff
   </div>
 </section>
 
+<div class="ticker" aria-label="Today's deals"><div class="track"><span>🔥 Chole Bhature 20% OFF</span><span>🎉 Gulab Jamun 25% OFF</span><span>🥞 Masala Dosa 10% OFF</span><span>🍗 Hyderabadi Biryani 20% OFF</span><span>🍛 Butter Paneer 15% OFF</span><span>🥛 Mango Lassi 15% OFF</span><span>🔥 Chole Bhature 20% OFF</span><span>🎉 Gulab Jamun 25% OFF</span><span>🥞 Masala Dosa 10% OFF</span><span>🍗 Hyderabadi Biryani 20% OFF</span><span>🍛 Butter Paneer 15% OFF</span><span>🥛 Mango Lassi 15% OFF</span></div></div>
+
 <section id="about">
   <h2 class="section-title reveal">Welcome to Food Corner</h2>
   <p class="section-text reveal">Fresh ingredients, delicious recipes and happy customers.</p>
@@ -196,18 +228,117 @@ body.dark input,body.dark textarea,body.dark select{background:#160b05;color:#ff
   <p class="section-text reveal">Explore our delicious selection of food and beverages.</p>
   <div class="filters reveal">
     <button class="filter-btn active" onclick="filterMenu('all',this)">All</button>
+    <button class="filter-btn" onclick="filterMenu('deals',this)">🔥 Deals</button>
+    <button class="filter-btn" onclick="filterMenu('north',this)">North Indian</button>
+    <button class="filter-btn" onclick="filterMenu('south',this)">South Indian</button>
     <button class="filter-btn" onclick="filterMenu('italian',this)">Italian</button>
-    <button class="filter-btn" onclick="filterMenu('indian',this)">Indian</button>
     <button class="filter-btn" onclick="filterMenu('fastfood',this)">Fast Food</button>
     <button class="filter-btn" onclick="filterMenu('beverage',this)">Beverages</button>
+    <button class="filter-btn" onclick="filterMenu('dessert',this)">Desserts</button>
   </div>
   <div class="menu-grid">
-    <div class="tilt food-card reveal" data-category="italian"><div class="food-image">🍕</div><span class="category">Italian</span><h3>Pizza</h3><p>Fresh cheesy Italian pizza.</p><div class="price">₹250</div><button class="add-btn" onclick="addToCart('Pizza',250)">Add to Cart</button></div>
-    <div class="tilt food-card reveal" data-category="indian"><div class="food-image">🥘</div><span class="category">Indian</span><h3>Paneer Tikka</h3><p>Delicious spicy grilled paneer.</p><div class="price">₹180</div><button class="add-btn" onclick="addToCart('Paneer Tikka',180)">Add to Cart</button></div>
-    <div class="tilt food-card reveal" data-category="fastfood"><div class="food-image">🍔</div><span class="category">Fast Food</span><h3>Veg Burger</h3><p>Crispy vegetable burger.</p><div class="price">₹120</div><button class="add-btn" onclick="addToCart('Veg Burger',120)">Add to Cart</button></div>
-    <div class="tilt food-card reveal" data-category="beverage"><div class="food-image">☕</div><span class="category">Beverage</span><h3>Cold Coffee</h3><p>Smooth and refreshing cold coffee.</p><div class="price">₹100</div><button class="add-btn" onclick="addToCart('Cold Coffee',100)">Add to Cart</button></div>
-    <div class="tilt food-card reveal" data-category="indian"><div class="food-image">🍛</div><span class="category">Indian</span><h3>Special Thali</h3><p>Complete Indian meal with variety.</p><div class="price">₹220</div><button class="add-btn" onclick="addToCart('Special Thali',220)">Add to Cart</button></div>
-    <div class="tilt food-card reveal" data-category="beverage"><div class="food-image">🍨</div><span class="category">Dessert</span><h3>Ice Cream</h3><p>Creamy and delicious dessert.</p><div class="price">₹90</div><button class="add-btn" onclick="addToCart('Ice Cream',90)">Add to Cart</button></div>
+    <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-15%</span>
+      <div class="food-image"><img src="images/butter-paneer.jpg" alt="Butter Paneer Masala" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍛</span><span class="icon-chip">🍛</span></div>
+      <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🔥 Bestseller</span></div>
+      <h3>Butter Paneer Masala</h3><p>Creamy tomato-butter gravy with soft paneer.</p><div class="price"><span class="now">₹221</span> <s>₹260</s> <em class="off">15% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Butter Paneer Masala',221,260)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-10%</span>
+      <div class="food-image"><img src="images/dal-makhani.jpg" alt="Dal Makhani" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥣</span><span class="icon-chip">🥣</span></div>
+      <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Dal Makhani</h3><p>Slow-cooked black lentils finished with cream.</p><div class="price"><span class="now">₹180</span> <s>₹200</s> <em class="off">10% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Dal Makhani',180,200)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-20%</span>
+      <div class="food-image"><img src="images/chole-bhature.jpg" alt="Chole Bhature" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🫓</span><span class="icon-chip">🫓</span></div>
+      <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🌶️ Spicy</span></div>
+      <h3>Chole Bhature</h3><p>Spicy chickpeas with fluffy fried bhature.</p><div class="price"><span class="now">₹120</span> <s>₹150</s> <em class="off">20% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Chole Bhature',120,150)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="north" data-deal="0">
+      <div class="food-image"><img src="images/paneer-tikka.jpg" alt="Paneer Tikka" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥘</span><span class="icon-chip">🥘</span></div>
+      <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Paneer Tikka</h3><p>Delicious spicy grilled paneer.</p><div class="price"><span class="now">₹180</span></div>
+      <button class="add-btn" onclick="addToCart('Paneer Tikka',180,180)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="north" data-deal="1"><span class="badge">-12%</span>
+      <div class="food-image"><img src="images/special-thali.jpg" alt="Special Thali" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍛</span><span class="icon-chip">🍛</span></div>
+      <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">⭐ Chef's pick</span></div>
+      <h3>Special Thali</h3><p>Complete Indian meal with variety.</p><div class="price"><span class="now">₹194</span> <s>₹220</s> <em class="off">12% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Special Thali',194,220)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="north" data-deal="0">
+      <div class="food-image"><img src="images/garlic-naan.jpg" alt="Garlic Butter Naan" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🫓</span><span class="icon-chip">🫓</span></div>
+      <div class="meta"><span class="category">North Indian</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Garlic Butter Naan</h3><p>Tandoor-baked naan brushed with garlic butter.</p><div class="price"><span class="now">₹60</span></div>
+      <button class="add-btn" onclick="addToCart('Garlic Butter Naan',60,60)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="south" data-deal="1"><span class="badge">-10%</span>
+      <div class="food-image"><img src="images/masala-dosa.jpg" alt="Masala Dosa" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥞</span><span class="icon-chip">🥞</span></div>
+      <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🔥 Bestseller</span></div>
+      <h3>Masala Dosa</h3><p>Crispy rice crepe with spiced potato filling.</p><div class="price"><span class="now">₹108</span> <s>₹120</s> <em class="off">10% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Masala Dosa',108,120)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="south" data-deal="1"><span class="badge">-15%</span>
+      <div class="food-image"><img src="images/idli-sambar.jpg" alt="Idli Sambar" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍚</span><span class="icon-chip">🍚</span></div>
+      <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Idli Sambar</h3><p>Soft steamed idlis with sambar and chutney.</p><div class="price"><span class="now">₹76</span> <s>₹90</s> <em class="off">15% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Idli Sambar',76,90)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="south" data-deal="0">
+      <div class="food-image"><img src="images/medu-vada.jpg" alt="Medu Vada" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍩</span><span class="icon-chip">🍩</span></div>
+      <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Medu Vada</h3><p>Golden crispy lentil donuts, served hot.</p><div class="price"><span class="now">₹80</span></div>
+      <button class="add-btn" onclick="addToCart('Medu Vada',80,80)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="south" data-deal="1"><span class="badge">-20%</span>
+      <div class="food-image"><img src="images/hyderabadi-biryani.jpg" alt="Hyderabadi Biryani" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍗</span><span class="icon-chip">🍗</span></div>
+      <div class="meta"><span class="category">South Indian</span><i class="dot nonveg" title="Non-vegetarian"></i><span class="tag">🌶️ Spicy</span></div>
+      <h3>Hyderabadi Biryani</h3><p>Fragrant basmati layered with tender chicken.</p><div class="price"><span class="now">₹224</span> <s>₹280</s> <em class="off">20% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Hyderabadi Biryani',224,280)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="south" data-deal="0">
+      <div class="food-image"><img src="images/filter-coffee.jpg" alt="Filter Coffee" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">☕</span><span class="icon-chip">☕</span></div>
+      <div class="meta"><span class="category">South Indian</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Filter Coffee</h3><p>Traditional South Indian decoction coffee.</p><div class="price"><span class="now">₹50</span></div>
+      <button class="add-btn" onclick="addToCart('Filter Coffee',50,50)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="italian" data-deal="1"><span class="badge">-10%</span>
+      <div class="food-image"><img src="images/pizza.jpg" alt="Pizza" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍕</span><span class="icon-chip">🍕</span></div>
+      <div class="meta"><span class="category">Italian</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Pizza</h3><p>Fresh cheesy Italian pizza.</p><div class="price"><span class="now">₹225</span> <s>₹250</s> <em class="off">10% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Pizza',225,250)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="fastfood" data-deal="0">
+      <div class="food-image"><img src="images/veg-burger.jpg" alt="Veg Burger" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍔</span><span class="icon-chip">🍔</span></div>
+      <div class="meta"><span class="category">Fast Food</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Veg Burger</h3><p>Crispy vegetable burger.</p><div class="price"><span class="now">₹120</span></div>
+      <button class="add-btn" onclick="addToCart('Veg Burger',120,120)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="beverage" data-deal="0">
+      <div class="food-image"><img src="images/cold-coffee.jpg" alt="Cold Coffee" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">☕</span><span class="icon-chip">☕</span></div>
+      <div class="meta"><span class="category">Beverage</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Cold Coffee</h3><p>Smooth and refreshing cold coffee.</p><div class="price"><span class="now">₹100</span></div>
+      <button class="add-btn" onclick="addToCart('Cold Coffee',100,100)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="beverage" data-deal="1"><span class="badge">-15%</span>
+      <div class="food-image"><img src="images/mango-lassi.jpg" alt="Mango Lassi" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🥛</span><span class="icon-chip">🥛</span></div>
+      <div class="meta"><span class="category">Beverage</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Mango Lassi</h3><p>Thick chilled yogurt drink with ripe mango.</p><div class="price"><span class="now">₹76</span> <s>₹90</s> <em class="off">15% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Mango Lassi',76,90)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="dessert" data-deal="1"><span class="badge">-25%</span>
+      <div class="food-image"><img src="images/gulab-jamun.jpg" alt="Gulab Jamun" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍮</span><span class="icon-chip">🍮</span></div>
+      <div class="meta"><span class="category">Dessert</span><i class="dot veg" title="Vegetarian"></i><span class="tag">🎉 Deal</span></div>
+      <h3>Gulab Jamun</h3><p>Warm milk dumplings soaked in rose syrup.</p><div class="price"><span class="now">₹60</span> <s>₹80</s> <em class="off">25% OFF</em></div>
+      <button class="add-btn" onclick="addToCart('Gulab Jamun',60,80)">Add to Cart</button>
+    </div>
+    <div class="tilt food-card reveal" data-category="dessert" data-deal="0">
+      <div class="food-image"><img src="images/ice-cream.jpg" alt="Ice Cream" loading="lazy" onerror="this.parentNode.classList.add('noimg')"><span class="emoji">🍨</span><span class="icon-chip">🍨</span></div>
+      <div class="meta"><span class="category">Dessert</span><i class="dot veg" title="Vegetarian"></i></div>
+      <h3>Ice Cream</h3><p>Creamy and delicious dessert.</p><div class="price"><span class="now">₹90</span></div>
+      <button class="add-btn" onclick="addToCart('Ice Cream',90,90)">Add to Cart</button>
+    </div>
   </div>
 </section>
 
@@ -237,6 +368,7 @@ body.dark input,body.dark textarea,body.dark select{background:#160b05;color:#ff
   <div class="cart-header"><h2>🛒 Your Cart</h2><button class="close-cart" onclick="closeCart()" aria-label="Close cart">×</button></div>
   <div id="cartItems"><p style="color:#777">Your cart is empty.</p></div>
   <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+  <div class="cart-saved" id="cartSaved"></div>
   <button class="btn primary" style="width:100%;margin-top:20px" onclick="checkout()">Checkout</button>
 </div>
 
@@ -318,9 +450,22 @@ let setSceneTheme = ()=>{};
   const hero3d = pizza(); hero3d.scale.setScalar(1.25); scene.add(hero3d);
 
   // floating food down the page
-  const makers=[pizza,donut,iceCream];
-  for (let i=0;i<22;i++){
-    const g = makers[i%3](); g.scale.setScalar(rnd(.35,.7));
+  function dosa(){
+    const g=new THREE.Group(), r=new THREE.Mesh(new THREE.CylinderGeometry(.3,.16,2.6,20),M(0xe0a458,.6)); r.rotation.z=Math.PI/2; g.add(r);
+    const f=new THREE.Mesh(new THREE.SphereGeometry(.24,10,10),M(0xf59e0b)); f.position.x=1.35; f.scale.set(1.2,.9,.9); g.add(f); return g;
+  }
+  function samosa(){
+    const g=new THREE.Group(), c=new THREE.Mesh(new THREE.ConeGeometry(.95,1.3,3),M(0xd97706,.6)); c.rotation.y=.5; g.add(c); return g;
+  }
+  function curry(){
+    const g=new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.SphereGeometry(1,24,16,0,Math.PI*2,Math.PI/2,Math.PI/2),new THREE.MeshStandardMaterial({color:0xf3f4f6,side:THREE.DoubleSide,roughness:.3})));
+    const s=new THREE.Mesh(new THREE.CircleGeometry(.96,24),M(0xea580c,.4)); s.rotation.x=-Math.PI/2; g.add(s);
+    const p=new THREE.Mesh(new THREE.SphereGeometry(.16,10,10),M(0xfef3c7)); p.position.set(.2,.03,.1); g.add(p); return g;
+  }
+  const makers=[pizza,donut,iceCream,dosa,samosa,curry];
+  for (let i=0;i<30;i++){
+    const g = makers[i%6](); g.scale.setScalar(rnd(.35,.7));
     g.position.set((i%2?1:-1)*rnd(4.5,11), -rnd(2,DEPTH), rnd(-8,0));
     g.rotation.set(rnd(0,6),rnd(0,6),0);
     items.push({o:g, rx:rnd(.1,.4), ry:rnd(.2,.6), ph:rnd(0,6), base:g.position.y}); scene.add(g);
@@ -377,7 +522,7 @@ let toastT; function toast(m){ const t=$("toast"); t.textContent=m; t.classList.
 function filterMenu(cat,btn){
   document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active");
   document.querySelectorAll(".food-card").forEach(c=>{
-    const show = cat==="all" || c.dataset.category===cat;
+    const show = cat==="all" || (cat==="deals" ? c.dataset.deal==="1" : c.dataset.category===cat);
     c.classList.toggle("hide",!show); c.classList.remove("pop");
     if (show){ void c.offsetWidth; c.classList.add("pop"); }
   });
@@ -385,23 +530,24 @@ function filterMenu(cat,btn){
 
 /* ===== CART ===== */
 let cart=[];
-function addToCart(name,price){
-  cart.push({name,price}); updateCart(); toast("🍴 "+name+" added to your cart");
+function addToCart(name,price,orig){
+  cart.push({name,price,orig:orig||price}); updateCart(); toast("🍴 "+name+" added to your cart");
   const b=$("cartBtn"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump");
 }
 function updateCart(){
   $("cartCount").textContent=cart.length;
   const box=$("cartItems");
-  if (!cart.length){ box.innerHTML='<p style="color:#777">Your cart is empty.</p>'; $("cartTotal").textContent="₹0"; return; }
-  let total=0; box.innerHTML="";
+  if (!cart.length){ box.innerHTML='<p style="color:#777">Your cart is empty.</p>'; $("cartTotal").textContent="₹0"; $("cartSaved").textContent=""; return; }
+  let total=0, saved=0; box.innerHTML="";
   cart.forEach((it,i)=>{
-    total+=it.price;
+    total+=it.price; saved+=it.orig-it.price;
     const d=document.createElement("div"); d.className="cart-item";
     d.innerHTML=`<div><div class="cart-item-name">${it.name}</div><div class="cart-item-price">₹${it.price}</div></div>
       <button onclick="removeItem(${i})" style="border:0;background:#fee2e2;color:#dc2626;border-radius:8px;padding:5px 9px;cursor:pointer">Remove</button>`;
     box.appendChild(d);
   });
   $("cartTotal").textContent="₹"+total;
+  $("cartSaved").textContent=saved>0?"🎉 You saved ₹"+saved:"";
 }
 function removeItem(i){ cart.splice(i,1); updateCart(); }
 function openCart(){ $("cart").classList.add("open"); }
